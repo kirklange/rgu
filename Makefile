@@ -83,7 +83,11 @@ EXT_DIR = $(ROOT)/ext
 
 init :
 	@rm -rf $(EXT_DIR)/ezc
+	@rm -rf $(EXT_DIR)/m.css
+	@rm -rf .git/modules/ext/ezc
+	@rm -rf .git/modules/ext/m.css
 	git submodule add -f https://github.com/ezaf/ezc.git $(EXT_DIR)/ezc
+	git submodule add -f https://github.com/mosra/m.css.git $(EXT_DIR)/m.css
 	@rm -f script/ezc.mk
 	@mkdir -p script
 	@rmdir --ignore-fail-on-non-empty script

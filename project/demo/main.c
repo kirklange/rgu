@@ -1,7 +1,6 @@
 /** @file       main.c
  *  @brief      Example main function for EzC.
  *
- *
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
  *  

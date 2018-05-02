@@ -34,7 +34,7 @@ extern "C"
 
 
 /**
- *  @breif      Say hello to whoever you want!
+ *  @brief      Say hello to whoever you want!
  *  @param      subject    String indicating to whom we are saying hello to.
  *  @return     void
  *  @details    Concatenates `"Hello "`, the `subject` parameter, and `"!\n"`.
