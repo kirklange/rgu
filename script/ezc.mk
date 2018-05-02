@@ -100,7 +100,7 @@ MAKE = make --no-print-directory
 
 
 .PHONY : all $(BLD_DIR) run dirs deps $(EXT_DIR) $(DOC_DIR) rtd
-.PHONY : compile help clean clean-$(BLD_DIR) clean-$(EXT_DIR)
+.PHONY : compile help clean clean-$(BLD_DIR) clean-$(EXT_DIR) open
 
 all :
 	$(MAKE) $(DOC_DIR)
@@ -111,6 +111,10 @@ help :
 	@echo
 	@echo "TODO: describe make targets"
 	@echo
+
+open : # Usage example: `make open F=hello W=vs`
+	@script/ezc_open.sh \
+		$(SRC_DIR) $(INC_DIR) $(PRJ_DIR) $(F) $(W)
 
 $(DOC_DIR) :
 	mkdir -p $(DOC_DIR)

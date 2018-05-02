@@ -1,4 +1,4 @@
-# Configuration Makefile for EzC-based Projects
+# Configuration Makefile for EzC projects
 #
 # Copyright (c) 2018 Kirk Lange
 #
