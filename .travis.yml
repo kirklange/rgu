@@ -1,0 +1,6 @@
+language: c
+install:
+script:
+- make init
+- make build
+- make run
