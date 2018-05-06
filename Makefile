@@ -25,10 +25,10 @@
 ###############################################################################
 
 # Directory within project/ of the example project that you want to build
-PRJ_SUBDIR = demo
+PRJ_SUBDIR = test_dice
 
 # Directory within src/ for which all *.c files will be added to the build
-SRC_SUBDIRS = hello
+SRC_SUBDIRS = rgu
 
 # Needed submodule include directories within ext/
 EXT_INC_DIRS =

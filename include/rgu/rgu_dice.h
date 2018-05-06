@@ -1,6 +1,6 @@
-/** @file       main.c
- *  @brief      Example main function for EzC.
- *
+/** @file       rgu_dice.h
+ *  @brief      Dice functions for the Royal Game of Ur.
+ *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
  *  
@@ -22,13 +22,32 @@
  *  ---------->
  */
 
-#include "hello/hello.h"
+#ifndef RGU_DICE_H
+#define RGU_DICE_H
 
-
-
-int main(int argc, char *argv[])
+#ifdef __cplusplus
+extern "C"
 {
-    print_hello_to("EzC developers");
-    return 0;
-}
+#endif
 
+
+
+#include <stdint.h>
+
+
+
+/**
+ *  @brief      Roll the four tetrahedral dice and return the sum.
+ *  @return     uint8_t    The sum of the four dice.
+ *  @details    Returns a number between zero and four. Due to the nature of
+ *              multi-dice rolls, this is a non-uniform distribution.
+ */
+uint8_t rgu_dice_roll();
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* RGU_DICE_H */
