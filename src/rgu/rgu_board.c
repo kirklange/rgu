@@ -1,7 +1,5 @@
-/** @file       hello.h
- *  @brief      A simple demonstration of how to document and include header
- *              files in EzC.
- *  
+/*  rgu_board.c
+ *
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
  *  
@@ -23,28 +21,12 @@
  *  ---------->
  */
 
-#ifndef HELLO_H
-#define HELLO_H
+#include "rgu/rgu_board.h"
 
-#ifdef __cplusplus
-extern "C"
+#include <stdio.h>
+
+
+
+void print_hello_to(const char *subject)
 {
-#endif
-
-
-
-/**
- *  @brief      Say hello to whoever you want!
- *  @param      subject    String indicating to whom we are saying hello to.
- *  @return     void
- *  @details    Concatenates `"Hello "`, the `subject` parameter, and `"!\n"`.
- */
-void print_hello_to(const char *subject);
-
-
-
-#ifdef __cplusplus
 }
-#endif
-
-#endif /* HELLO_H */

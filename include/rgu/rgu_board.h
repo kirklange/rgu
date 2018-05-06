@@ -1,5 +1,6 @@
-/*  hello.c
- *
+/** @file       rgu_board.h
+ *  @brief      Board structure for the Royal Game of Ur.
+ *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
  *  
@@ -21,14 +22,37 @@
  *  ---------->
  */
 
-#include "hello/hello.h"
+#ifndef RGU_BOARD_H
+#define RGU_BOARD_H
 
-#include <stdio.h>
-#include <string.h>
-
-
-
-void print_hello_to(const char *subject)
+#ifdef __cplusplus
+extern "C"
 {
-    printf("Hello %s!\n", subject);
+#endif
+
+
+
+/**
+ *  @brief      The board!
+ *  @details    Description of the board!
+ */
+typedef struct rgu_board
+{
 }
+rgu_board;
+
+/**
+ *  @brief      Say hello to whoever you want!
+ *  @param      subject    String indicating to whom we are saying hello to.
+ *  @return     void
+ *  @details    Concatenates `"Hello "`, the `subject` parameter, and `"!\n"`.
+ */
+void print_hello_to(const char *subject);
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* RGU_BOARD_H */
