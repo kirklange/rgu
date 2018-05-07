@@ -1,5 +1,5 @@
 /** @file       rgu_dice.h
- *  @brief      Dice functions for the Royal Game of Ur.
+ *  @brief      Dice functions.
  *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
@@ -38,9 +38,9 @@ extern "C"
 
 /**
  *  @brief      Roll the four tetrahedral dice and return the sum.
- *  @return     uint8_t    The sum of the four dice.
- *  @details    Returns a number between zero and four. Due to the nature of
- *              multi-dice rolls, this is a non-uniform distribution.
+ *  @return     The sum of the four dice. Range: [0,4]
+ *  @details    Due to the nature of multi-dice rolls, the distribution of
+ *              this function's output is non-uniform.
  */
 uint8_t rgu_dice_roll();
 

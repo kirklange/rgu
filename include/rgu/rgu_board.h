@@ -1,5 +1,5 @@
 /** @file       rgu_board.h
- *  @brief      Board structure for the Royal Game of Ur.
+ *  @brief      Board structure and functions.
  *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
@@ -57,10 +57,10 @@ uint8_t     rgu_board_del();
 /**
  *  @brief      Attempt to move a piece a certain amount of moves.
  *  @param      self        Pointer to the board's self.
- *              keyPress    `char` correlating to the piece's `key` struct
+ *  @param      keyPress    `char` correlating to the piece's `key` struct
  *                            member that you want to move.
- *              moves       The amount of movements you want to try to move.
- *  @return     uint8_t     `0` if cannot move. `1` if successfully moved.
+ *  @param      moves       The amount of movements you want to try to move.
+ *  @return     `0` if cannot move. `1` if successfully moved.
  *  @details    DETAILED DESCRIPTION.
  */
 uint8_t     rgu_board_movePiece(rgu_board *self, char keyPress, uint8_t moves);

@@ -44,8 +44,11 @@ extern "C"
  */
 typedef enum rgu_piece_t
 {
-    ALPHA,  /** Owned by player one. */
-    BRAVO   /** Owned by player two. */
+    /** Owned by player one. */
+    ALPHA,
+
+    /** Owned by player two. */
+    BRAVO
 }
 rgu_piece_t;
 
@@ -59,8 +62,11 @@ rgu_piece_t;
  */
 typedef struct rgu_piece
 {
-    rgu_piece_t     owner;  /** This tile's type. */
-    char            key;    /** Keyboard input for moving the piece. */
+    /** This tile's type. */
+    rgu_piece_t     owner;
+
+    /** Keyboard input for moving this piece. */
+    char            key;
 }
 rgu_piece;
 
