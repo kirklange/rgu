@@ -1,4 +1,4 @@
-/** @file       main.c
+/** @file       main_test_dice.c
  *  @brief      Royal Game of Ur dice roll test.
  *
  *  <!---------

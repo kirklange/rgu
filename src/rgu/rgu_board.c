@@ -22,11 +22,92 @@
  */
 
 #include "rgu/rgu_board.h"
-
-#include <stdio.h>
-
+#include "rgu/rgu_tile.h"
 
 
-void print_hello_to(const char *subject)
+
+rgu_board* rgu_board_new()
+{
+    rgu_board *self = (rgu_board*) malloc(sizeof(rgu_board));
+
+    /* Link to section of video with animations of the pieces moving around
+     *   the board: <https://youtu.be/WZskjLq040I?t=3m49s>. */
+
+    /* Tail-end tiles */
+    rgu_tile *tailA = rgu_tile_new(0, 0, TAIL);
+    rgu_tile *lastA = rgu_tile_new(tailA, 0, DOUBLE);
+    rgu_tile *botmA = rgu_tile_new(lastA, 0, NORMAL);
+
+    rgu_tile *tailB = rgu_tile_new(0, 0, TAIL);
+    rgu_tile *lastB = rgu_tile_new(0, tailB, DOUBLE);
+    rgu_tile *botmB = rgu_tile_new(0, lastB, NORMAL);
+    
+    /* Center tiles */
+    rgu_tile *cent0 = rgu_tile_new(botmA, botmB, NORMAL);
+    rgu_tile *cent1 = rgu_tile_new(cent0, cent0, NORMAL);
+    rgu_tile *cent2 = rgu_tile_new(cent1, cent1, NORMAL);
+    rgu_tile *cent3 = rgu_tile_new(cent2, cent2, NORMAL);
+    rgu_tile *cent4 = rgu_tile_new(cent3, cent3, DOUBLE);
+    rgu_tile *cent5 = rgu_tile_new(cent4, cent4, NORMAL);
+    rgu_tile *cent6 = rgu_tile_new(cent5, cent5, NORMAL);
+    rgu_tile *cent7 = rgu_tile_new(cent6, cent6, NORMAL);
+
+    /* Head-end tiles */
+    rgu_tile *topA = rgu_tile_new(cent7, 0, DOUBLE);
+    rgu_tile *thrA = rgu_tile_new(topA, 0, NORMAL);
+    rgu_tile *secA = rgu_tile_new(thrA, 0, NORMAL);
+    rgu_tile *firA = rgu_tile_new(secA, 0, NORMAL);
+    rgu_tile *headA = rgu_tile_new(firA, 0, HEAD);
+
+    rgu_tile *topB = rgu_tile_new(0, cent7, DOUBLE);
+    rgu_tile *thrB = rgu_tile_new(0, topB, NORMAL);
+    rgu_tile *secB = rgu_tile_new(0, thrB, NORMAL);
+    rgu_tile *firB = rgu_tile_new(0, secB, NORMAL);
+    rgu_tile *headB = rgu_tile_new(0, firB, HEAD);
+    
+    /* Set self's heads, then return */
+    self->headA = headA;
+    self->headB = headB;
+
+    return self;
+}
+
+
+
+uint8_t rgu_board_del(rgu_board *self)
+{
+    if (self)
+    {
+        rgu_tile *iterA = self->headA,
+                 *iterB = self->headB,
+                 *nextA = 0,
+                 *nextB = 0;
+        
+        do
+        {
+            nextA = iterA->nextA;
+            nextB = iterB->nextB;
+
+            free(iterA);
+            /* No need to free the center tiles twice. */
+            if (iterA != iterB) free(iterB);
+
+            iterA = nextA;
+            iterB = nextB;
+        }
+        while(iterA && iterB);
+
+        free(self);
+    }
+    else
+    {
+        /* Cannot free null pointer. */
+        return 0;
+    }
+}
+
+
+
+uint8_t rgu_board_movePiece(rgu_board *self, char keyPress, uint8_t moves)
 {
 }

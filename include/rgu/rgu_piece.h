@@ -1,5 +1,5 @@
-/** @file       rgu_board.h
- *  @brief      Board structure for the Royal Game of Ur.
+/** @file       rgu_piece.h
+ *  @brief      Game piece enum and struct.
  *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
@@ -22,8 +22,8 @@
  *  ---------->
  */
 
-#ifndef RGU_BOARD_H
-#define RGU_BOARD_H
+#ifndef RGU_PIECE_H
+#define RGU_PIECE_H
 
 #ifdef __cplusplus
 extern "C"
@@ -32,38 +32,37 @@ extern "C"
 
 
 
-#include "rgu/rgu_tile.h"
-
-#include <stdint.h>
+/** 
+ *  @brief      The number of pieces each player has.
+ */
+#define RGU_PIECES_PER_PLAYER 7
 
 
 
 /**
- *  @brief      The board!
- *  @details    Description of the board.
+ *  @brief      Game piece enum describing who owns the piece.
  */
-typedef struct rgu_board
+typedef enum rgu_piece_t
 {
-    rgu_tile   *headA;
-    rgu_tile   *headB;
+    ALPHA,  /** Owned by player one. */
+    BRAVO   /** Owned by player two. */
 }
-rgu_board;
+rgu_piece_t;
 
 
-
-rgu_board*  rgu_board_new();
-uint8_t     rgu_board_del();
 
 /**
- *  @brief      Attempt to move a piece a certain amount of moves.
- *  @param      self        Pointer to the board's self.
- *              keyPress    `char` correlating to the piece's `key` struct
- *                            member that you want to move.
- *              moves       The amount of movements you want to try to move.
- *  @return     uint8_t     `0` if cannot move. `1` if successfully moved.
- *  @details    DETAILED DESCRIPTION.
+ *  @brief      Struct for describing the tiles on the game board.
+ *  @details    This is sort of like a singly linked list, but because each
+ *              player takes a slightly different path along the board, there
+ *              are two `next` pointers, one for each player.
  */
-uint8_t     rgu_board_movePiece(rgu_board *self, char keyPress, uint8_t moves);
+typedef struct rgu_piece
+{
+    rgu_piece_t     owner;  /** This tile's type. */
+    char            key;    /** Keyboard input for moving the piece. */
+}
+rgu_piece;
 
 
 
@@ -71,4 +70,4 @@ uint8_t     rgu_board_movePiece(rgu_board *self, char keyPress, uint8_t moves);
 }
 #endif
 
-#endif /* RGU_BOARD_H */
+#endif /* RGU_PIECE_H */
