@@ -1,5 +1,5 @@
 /** @file       rgu_piece.h
- *  @brief      Game piece enum and struct.
+ *  @brief      Game piece enum, struct, and functions.
  *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
@@ -29,6 +29,10 @@
 extern "C"
 {
 #endif
+
+
+
+#include <stdint.h>
 
 
 
@@ -69,6 +73,11 @@ typedef struct rgu_piece
     char            key;
 }
 rgu_piece;
+
+
+
+rgu_piece*  rgu_piece_new(rgu_piece_t owner, char key);
+uint8_t     rgu_piece_del(rgu_piece *self);
 
 
 

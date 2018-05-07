@@ -52,7 +52,7 @@ rgu_board;
 
 
 rgu_board*  rgu_board_new();
-uint8_t     rgu_board_del();
+uint8_t     rgu_board_del(rgu_board *self);
 
 /**
  *  @brief      Attempt to move a piece a certain amount of moves.

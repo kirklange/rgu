@@ -22,6 +22,7 @@
  */
 
 #include "rgu/rgu_board.h"
+#include "rgu/rgu_piece.h"
 #include "rgu/rgu_tile.h"
 
 
@@ -64,6 +65,15 @@ rgu_board* rgu_board_new()
     rgu_tile *secB = rgu_tile_new(0, thrB, NORMAL);
     rgu_tile *firB = rgu_tile_new(0, secB, NORMAL);
     rgu_tile *headB = rgu_tile_new(0, firB, HEAD);
+
+    /* Create the pieces */
+    uint8_t i;
+    for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+    {
+        headA->piece[i] = rgu_piece_new(ALPHA, (char) ('a'+i));
+        headB->piece[i] = rgu_piece_new(BRAVO, (char)
+                                        (('z'-RGU_PIECES_PER_PLAYER+1)+i));
+    }
     
     /* Set self's heads, then return */
     self->headA = headA;
@@ -78,6 +88,15 @@ uint8_t rgu_board_del(rgu_board *self)
 {
     if (self)
     {
+        /* Free the pieces */
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        {
+            rgu_piece_del(self->headA->piece[i]);
+            rgu_piece_del(self->headB->piece[i]);
+        }
+
+        /* Free the tiles */
         rgu_tile *iterA = self->headA,
                  *iterB = self->headB,
                  *nextA = 0,
@@ -88,9 +107,9 @@ uint8_t rgu_board_del(rgu_board *self)
             nextA = iterA->nextA;
             nextB = iterB->nextB;
 
-            free(iterA);
+            rgu_tile_del(iterA);
             /* No need to free the center tiles twice. */
-            if (iterA != iterB) free(iterB);
+            if (iterA != iterB) rgu_tile_del(iterB);
 
             iterA = nextA;
             iterB = nextB;

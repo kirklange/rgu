@@ -34,6 +34,17 @@ int main(int argc, char *argv[])
     printf("RGU Board Test\n");
     
     rgu_board *board = rgu_board_new();
+    
+    printf("Game Piece Key Assignments\n");
+    uint8_t i;
+    printf("  Player A: ");
+    for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        printf("%c ", board->headA->piece[i]->key);
+    printf("\n  Player B: ");
+    for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        printf("%c ", board->headB->piece[i]->key);
+    printf("\n");
+
     rgu_board_del(board);
 
     return 0;

@@ -1,4 +1,4 @@
-/*  rgu_tile.c
+/*  rgu_piece.c
  *
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
@@ -21,24 +21,23 @@
  *  ---------->
  */
 
-#include "rgu/rgu_tile.h"
-
-#include <stdint.h>
+#include "rgu/rgu_piece.h"
 
 
 
-rgu_tile* rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type)
+rgu_piece* rgu_piece_new(rgu_piece_t owner, char key)
 {
-    rgu_tile *self = (rgu_tile*) malloc(sizeof(rgu_tile));
-    self->nextA = nextA;
-    self->nextB = nextB;
-    self->type = type;
+    rgu_piece *self = (rgu_piece*) malloc(sizeof(rgu_piece));
+
+    self->owner = owner;
+    self->key = key;
+
     return self;
 }
 
 
 
-uint8_t rgu_tile_del(rgu_tile *self)
+uint8_t rgu_piece_del(rgu_piece *self)
 {
     if (self)
     {
