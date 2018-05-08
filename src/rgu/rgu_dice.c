@@ -30,9 +30,9 @@
 
 uint8_t rgu_dice_roll()
 {
-    uint8_t sum = 0, dices = 4;
+    uint8_t sum = 0, dice = 4;
 
-    for (; dices > 0; dices--)
+    for (; dice > 0; dice--)
     {
         sum += rand()%2;
     }
