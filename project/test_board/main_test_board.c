@@ -55,7 +55,6 @@ int main(int argc, char *argv[])
         printf("%c ", board->headB->piece[i]->key);
     printf("\n");
 
-    /*
     char key;
     uint8_t moves, succA, succB;
     while (1)
@@ -81,7 +80,6 @@ int main(int argc, char *argv[])
 
         scanf("%c", &key);
     }
-    */
 
     rgu_board_del(board);
 

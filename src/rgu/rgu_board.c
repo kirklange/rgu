@@ -169,13 +169,15 @@ uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
                 if (!tile_attempt) break;
             }
             
+            success = 0;
             if (moves == 0)
             {
                 success = rgu_tile_addPiece(tile_attempt, piece);
             }
-            else
+            
+            if (!success)
             {
-                /* Cannot move off the board */
+                /* Cannot move off the board or on top of other piece */
                 rgu_tile_addPiece(tile_orig, piece);
                 success = 0;
             }
