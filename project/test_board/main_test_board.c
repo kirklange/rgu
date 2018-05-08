@@ -34,6 +34,16 @@ int main(int argc, char *argv[])
     printf("RGU Board Test\n");
     
     rgu_board *board = rgu_board_new();
+
+    printf("Board Linked List Map\n");
+    rgu_tile *iter;
+    printf("  Path A: ");
+    for (iter=board->headA; iter; iter=iter->nextA)
+        printf("0x%x ", iter);
+    printf("\n  Path B: ");
+    for (iter=board->headB; iter; iter=iter->nextB)
+        printf("0x%x ", iter);
+    printf("\n");
     
     printf("Game Piece Key Assignments\n");
     uint8_t i;
@@ -44,6 +54,34 @@ int main(int argc, char *argv[])
     for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
         printf("%c ", board->headB->piece[i]->key);
     printf("\n");
+
+    /*
+    char key;
+    uint8_t moves, succA, succB;
+    while (1)
+    {
+        printf("Select key to move ('Q' to quit): ");
+        scanf("%c", &key);
+        if (key == 'Q') break;
+        printf("Amount of tiles to move forward: ");
+        scanf("%u", &moves);
+        printf("Inputted %c and %u.\n", key, moves);
+
+        succA = rgu_board_movePiece(board, ALPHA, key, moves);
+        if (!succA) succB = rgu_board_movePiece(board, BRAVO, key, moves);
+
+        if (succA || succB)
+        {
+            printf("Successfully moved %c.\n", key);
+        }
+        else
+        {
+            printf("FAILED to move %c.\n", key);
+        }
+
+        scanf("%c", &key);
+    }
+    */
 
     rgu_board_del(board);
 

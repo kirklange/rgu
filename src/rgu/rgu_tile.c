@@ -33,6 +33,7 @@ rgu_tile* rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type)
     self->nextA = nextA;
     self->nextB = nextB;
     self->type = type;
+    self->piece = calloc(RGU_PIECES_PER_PLAYER, sizeof(rgu_piece*));
     return self;
 }
 
@@ -42,6 +43,7 @@ uint8_t rgu_tile_del(rgu_tile *self)
 {
     if (self)
     {
+        free(self->piece);
         free(self);
     }
     else
@@ -49,4 +51,109 @@ uint8_t rgu_tile_del(rgu_tile *self)
         /* Cannot free null pointer. */
         return 0;
     }
+}
+
+
+
+rgu_tile* rgu_tile_getPiece(rgu_tile *self, char key)
+{
+    if (self && key)
+    {
+        rgu_tile *voila = 0;
+        
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER && self->piece[i]; i++)
+        {
+            if (self->piece[i]->key == key)
+            {
+                voila = self->piece[i];
+                break;
+            }
+        }
+
+        /* If never found this will return 0 */
+        return voila;
+    }
+    else
+    {
+        /* Nonsensical parameters */
+        return 0;
+    }
+}
+
+
+
+
+uint8_t rgu_tile_addPiece(rgu_tile *self, rgu_piece *piece)
+{
+    uint8_t success;
+
+    if (self && piece)
+    {
+        uint8_t i;
+        success = 0;
+
+        switch (self->type)
+        {
+            /* Can have multiple piece on the head or tail */
+            case HEAD:
+            case TAIL:
+                for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+                {
+                    if (self->piece[i] == 0)
+                    {
+                        self->piece[i] = piece;
+                        success = 1;
+                        break;
+                    }
+                }
+                break;
+            /* Can only have one piece on non-head and non-tail tiles */
+            case NORMAL:
+            case DOUBLE:
+                if (self->piece[0] == 0)
+                {
+                    self->piece[0] = piece;
+                    success = 1;
+                }
+                break;
+        }
+    }
+    else
+    {
+        /* Nonsensical parameters */
+        success = 0;
+    }
+    
+    return success;
+}
+
+
+
+uint8_t rgu_tile_removePiece(rgu_tile *self, rgu_piece *piece)
+{
+    uint8_t success;
+
+    if (self && piece)
+    {
+        success = 0;
+
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER && self->piece[i]; i++)
+        {
+            if (self->piece[i] == piece)
+            {
+                self->piece[i] = 0;
+                success = 1;
+                break;
+            }
+        }
+    }
+    else
+    {
+        /* Nonsensical parameters */
+        success = 0;
+    }
+
+    return success;
 }

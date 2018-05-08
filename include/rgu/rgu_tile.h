@@ -84,8 +84,8 @@ typedef struct rgu_tile
     rgu_tile_t           type;
     
     /** Array of pointers to the game pieces that are on this tile. If no
-     *    piece is on this tile, `piece[0]` will point to `0`. */
-    rgu_piece           *piece[RGU_PIECES_PER_PLAYER];
+     *    piece is on this tile, `piece` will point to `0`. */
+    rgu_piece          **piece;
 }
 rgu_tile;
 
@@ -93,6 +93,10 @@ rgu_tile;
 
 rgu_tile*   rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type);
 uint8_t     rgu_tile_del(rgu_tile *self);
+
+rgu_tile*   rgu_tile_getPiece(rgu_tile *self, char key);
+uint8_t     rgu_tile_addPiece(rgu_tile *self, rgu_piece *piece);
+uint8_t     rgu_tile_removePiece(rgu_tile *self, rgu_piece *piece);
 
 
 

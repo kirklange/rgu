@@ -127,6 +127,70 @@ uint8_t rgu_board_del(rgu_board *self)
 
 
 
-uint8_t rgu_board_movePiece(rgu_board *self, char keyPress, uint8_t moves)
+uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
+                            char key, uint8_t moves)
 {
+    uint8_t success;
+
+    if (self && moves>=0 && key>=0)
+    {
+        rgu_tile *tile_orig = player==ALPHA ? self->headA : self->headB;
+        rgu_piece *piece = 0;
+        uint8_t i;
+        
+        /* Try looking for the game piece with this key input */
+        do
+        {
+            /* No point in trying to move a piece that passed the finish */
+            if (tile_orig->type == TAIL) break;
+            
+            /* Break if piece!=0 (i.e. we found it) */
+            if (piece = rgu_tile_getPiece(tile_orig, key))
+            {
+                rgu_tile_removePiece(tile_orig, piece);
+                break;
+            }
+
+            tile_orig = player==ALPHA ? tile_orig->nextA : tile_orig->nextB;
+        }
+        while (tile_orig && !piece);
+
+        /* If found piece, now actually move it */
+        if (piece)
+        {
+            rgu_tile *tile_attempt = tile_orig;
+
+            /* Abandon loop if we're starting to move off the board */
+            for (; moves>0; moves--)
+            {
+                tile_attempt = player==ALPHA ?
+                    tile_attempt->nextA : tile_attempt->nextB;
+
+                if (!tile_attempt) break;
+            }
+            
+            if (moves == 0)
+            {
+                success = rgu_tile_addPiece(tile_attempt, piece);
+            }
+            else
+            {
+                /* Cannot move off the board */
+                rgu_tile_addPiece(tile_orig, piece);
+                success = 0;
+            }
+        }
+        else
+        {
+            /* Could not find piece with key input `key` */
+            success = 0;
+        }
+    }
+    else
+    {
+        /* Nonsensical parameters (such as null pointers) */
+        success = 0;
+    }
+
+    return success;
 }

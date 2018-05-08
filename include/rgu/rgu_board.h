@@ -32,6 +32,7 @@ extern "C"
 
 
 
+#include "rgu/rgu_piece.h"
 #include "rgu/rgu_tile.h"
 
 #include <stdint.h>
@@ -63,7 +64,8 @@ uint8_t     rgu_board_del(rgu_board *self);
  *  @return     `0` if cannot move. `1` if successfully moved.
  *  @details    DETAILED DESCRIPTION.
  */
-uint8_t     rgu_board_movePiece(rgu_board *self, char keyPress, uint8_t moves);
+uint8_t     rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
+                                char key, uint8_t moves);
 
 
 
