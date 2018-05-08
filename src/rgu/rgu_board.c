@@ -25,6 +25,8 @@
 #include "rgu/rgu_piece.h"
 #include "rgu/rgu_tile.h"
 
+#include <stdio.h>
+
 
 
 rgu_board* rgu_board_new()
@@ -170,7 +172,7 @@ uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
             }
             
             success = 0;
-            if (moves == 0)
+            if (moves == 0 && tile_attempt)
             {
                 success = rgu_tile_addPiece(tile_attempt, piece);
             }
@@ -195,4 +197,71 @@ uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
     }
 
     return success;
+}
+
+
+
+void rgu_board_print(rgu_board *self)
+{
+    rgu_tile *iterA = self->headA,
+             *iterB = self->headB;
+
+    /*               0    5  8  11 14 17 20 23 26
+     *               v    v  v  v  v  v  v  v  v   */
+    char row0[30] = "    { }[ ][ ][ ]-#--#-{ }[ ]\n",
+         row1[30] = "    [ ][ ][ ]{ }[ ][ ][ ][ ]\n",
+         row2[30] = "    { }[ ][ ][ ]-#--#-{ }[ ]\n";
+    /*                   head-end        tail-end  */
+    
+    /* Player A starts and ends on the bottom (row 2).
+     * Conversely, player B starts and ends on the top (row 0). */
+
+    /* Draw head tile piece counts */
+    const uint8_t N;
+    char buffer[4];
+    sprintf(buffer, "%u", rgu_tile_countPieces(iterA));
+    row2[17] = buffer[0];
+    sprintf(buffer, "%u", rgu_tile_countPieces(iterB));
+    row0[17] = buffer[0];
+
+    iterA = iterA->nextA;
+    iterB = iterB->nextB;
+    
+    /* Draw head-end */
+    uint8_t i;
+    for (i=0; i<4; i++)
+    {
+        row2[14 - (i*3)] = iterA->piece[0] ? iterA->piece[0]->key : ' ';
+        row0[14 - (i*3)] = iterB->piece[0] ? iterB->piece[0]->key : ' ';
+
+        iterA = iterA->nextA;
+        iterB = iterB->nextB;
+    }
+    
+    /* Draw center (all of row 1) */
+    for (i=0; i<8; i++)
+    {
+        row1[5 + (i*3)] = iterA->piece[0] ? iterA->piece[0]->key : ' ';
+        
+        iterA = iterA->nextA;
+        iterB = iterB->nextB;
+    }
+
+    /* Draw tail-end */
+    for (i=0; i<2; i++)
+    {
+        row2[26 - (i*3)] = iterA->piece[0] ? iterA->piece[0]->key : ' ';
+        row0[26 - (i*3)] = iterB->piece[0] ? iterB->piece[0]->key : ' ';
+
+        iterA = iterA->nextA;
+        iterB = iterB->nextB;
+    }
+
+    /* Draw tail tile piece counts */
+    sprintf(buffer, "%u", rgu_tile_countPieces(iterA));
+    row2[20] = buffer[0];
+    sprintf(buffer, "%u", rgu_tile_countPieces(iterB));
+    row0[20] = buffer[0];
+
+    printf("\n%s%s%s\n", row0, row1, row2);
 }

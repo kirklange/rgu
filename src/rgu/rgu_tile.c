@@ -55,6 +55,26 @@ uint8_t rgu_tile_del(rgu_tile *self)
 
 
 
+uint8_t rgu_tile_countPieces(rgu_tile *self)
+{
+    if (self)
+    {
+        uint8_t i, count;
+        for (i=0, count=0; i<RGU_PIECES_PER_PLAYER; i++)
+        {
+            if (self->piece[i]) count++;
+        }
+        return count;
+    }
+    else
+    {
+        /* Nonsensical parameters */
+        return 0;
+    }
+}
+
+
+
 rgu_tile* rgu_tile_getPiece(rgu_tile *self, char key)
 {
     if (self && key)
@@ -62,12 +82,15 @@ rgu_tile* rgu_tile_getPiece(rgu_tile *self, char key)
         rgu_tile *voila = 0;
         
         uint8_t i;
-        for (i=0; i<RGU_PIECES_PER_PLAYER && self->piece[i]; i++)
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
         {
-            if (self->piece[i]->key == key)
+            if (self->piece[i])
             {
-                voila = self->piece[i];
-                break;
+                if (self->piece[i]->key == key)
+                {
+                    voila = self->piece[i];
+                    break;
+                }
             }
         }
 
@@ -139,7 +162,7 @@ uint8_t rgu_tile_removePiece(rgu_tile *self, rgu_piece *piece)
         success = 0;
 
         uint8_t i;
-        for (i=0; i<RGU_PIECES_PER_PLAYER && self->piece[i]; i++)
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
         {
             if (self->piece[i] == piece)
             {

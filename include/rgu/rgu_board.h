@@ -67,6 +67,8 @@ uint8_t     rgu_board_del(rgu_board *self);
 uint8_t     rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
                                 char key, uint8_t moves);
 
+void        rgu_board_print(rgu_board *self);
+
 
 
 #ifdef __cplusplus

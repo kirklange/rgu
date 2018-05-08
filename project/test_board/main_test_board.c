@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     rgu_board *board = rgu_board_new();
 
     printf("Board Linked List Map\n");
+    printf("  (See if you can spot the center tiles of matching addresses.)\n");
     rgu_tile *iter;
     printf("  Path A: ");
     for (iter=board->headA; iter; iter=iter->nextA)
@@ -44,7 +45,11 @@ int main(int argc, char *argv[])
     for (iter=board->headB; iter; iter=iter->nextB)
         printf("0x%x ", iter);
     printf("\n");
-    
+
+    printf("Staging Tile Pieces Count\n");
+    printf("  Player A: %u\n", rgu_tile_countPieces(board->headA));
+    printf("  Player B: %u\n", rgu_tile_countPieces(board->headB));
+   
     printf("Game Piece Key Assignments\n");
     uint8_t i;
     printf("  Player A: ");
@@ -55,31 +60,31 @@ int main(int argc, char *argv[])
         printf("%c ", board->headB->piece[i]->key);
     printf("\n");
 
+    rgu_board_print(board);
+    
+    /*
     char key;
     uint8_t moves, succA, succB;
     while (1)
     {
-        printf("Select key to move ('Q' to quit): ");
+        printf("Select a piece to move ('Q' to quit): ");
         scanf("%c", &key);
         if (key == 'Q') break;
         printf("Amount of tiles to move forward: ");
         scanf("%u", &moves);
-        printf("Inputted %c and %u.\n", key, moves);
 
         succA = rgu_board_movePiece(board, ALPHA, key, moves);
         if (!succA) succB = rgu_board_movePiece(board, BRAVO, key, moves);
 
         if (succA || succB)
-        {
             printf("Successfully moved %c.\n", key);
-        }
         else
-        {
             printf("FAILED to move %c.\n", key);
-        }
 
         scanf("%c", &key);
+        rgu_board_print(board);
     }
+    */
 
     rgu_board_del(board);
 
