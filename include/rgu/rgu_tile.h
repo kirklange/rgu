@@ -39,7 +39,8 @@ extern "C"
 
 
 /**
- *  @brief      The four (technically two) types of tiles on an RGU board.
+ *  @brief      The four (technically two) types of tiles on an RGU board,
+ *              plus an "error code" tile.
  *  @details    The starting and ending tiles are where the pieces reside when
  *              they aren't being rendered off the board. For our convenience,
  *              we will treat them like as if they are still on tiles, albeit
@@ -47,6 +48,11 @@ extern "C"
  */
 typedef enum rgu_tile_t
 {
+    /** Game piece movement functions return the type of tile the piece landed
+     *    on. If a piece failed to move to a tile, those function return `FAIL`
+     *    instead. */
+    FAIL,
+
     /** Where pieces are staged before getting placed on the board.
      *  When a piece gets kicked off the board, it's reset to here. */
     HEAD,
@@ -95,7 +101,8 @@ rgu_tile*   rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type);
 uint8_t     rgu_tile_del(rgu_tile *self);
 
 uint8_t     rgu_tile_countPieces(rgu_tile *self);
-rgu_tile*   rgu_tile_getPiece(rgu_tile *self, char key);
+rgu_piece*  rgu_tile_getPieceAny(rgu_tile *self);
+rgu_piece*  rgu_tile_getPieceKey(rgu_tile *self, char key);
 uint8_t     rgu_tile_addPiece(rgu_tile *self, rgu_piece *piece);
 uint8_t     rgu_tile_removePiece(rgu_tile *self, rgu_piece *piece);
 

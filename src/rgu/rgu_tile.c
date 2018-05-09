@@ -75,11 +75,39 @@ uint8_t rgu_tile_countPieces(rgu_tile *self)
 
 
 
-rgu_tile* rgu_tile_getPiece(rgu_tile *self, char key)
+rgu_piece* rgu_tile_getPieceAny(rgu_tile *self)
+{
+    if (self)
+    {
+        rgu_piece *voila = 0;
+        
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        {
+            if (self->piece[i])
+            {
+                voila = self->piece[i];
+                break;
+            }
+        }
+
+        /* If never found this will return 0 */
+        return voila;
+    }
+    else
+    {
+        /* Nonsensical parameter */
+        return 0;
+    }
+}
+
+
+
+rgu_piece* rgu_tile_getPieceKey(rgu_tile *self, char key)
 {
     if (self && key)
     {
-        rgu_tile *voila = 0;
+        rgu_piece *voila = 0;
         
         uint8_t i;
         for (i=0; i<RGU_PIECES_PER_PLAYER; i++)

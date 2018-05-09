@@ -45,8 +45,8 @@ extern "C"
  */
 typedef struct rgu_board
 {
-    rgu_tile   *headA;
-    rgu_tile   *headB;
+    rgu_tile       *headA;
+    rgu_tile       *headB;
 }
 rgu_board;
 
@@ -64,8 +64,12 @@ uint8_t     rgu_board_del(rgu_board *self);
  *  @return     `0` if cannot move. `1` if successfully moved.
  *  @details    DETAILED DESCRIPTION.
  */
-uint8_t     rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
+rgu_tile_t  rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
                                 char key, uint8_t moves);
+
+/* Attempt to move some piece from head tile onto board. */
+rgu_tile_t  rgu_board_enterPiece(rgu_board *self, rgu_piece_t player,
+                                 uint8_t moves);
 
 void        rgu_board_print(rgu_board *self);
 

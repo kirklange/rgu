@@ -64,7 +64,8 @@ int main(int argc, char *argv[])
     
     /*
     char key;
-    uint8_t moves, succA, succB;
+    uint8_t moves;
+    rgu_tile_t dest;
     while (1)
     {
         printf("Select a piece to move ('Q' to quit): ");
@@ -72,12 +73,24 @@ int main(int argc, char *argv[])
         if (key == 'Q') break;
         printf("Amount of tiles to move forward: ");
         scanf("%u", &moves);
+        
+        if (key == '+')
+        {
+            dest = rgu_board_enterPiece(board, ALPHA, moves);
+        }
+        else if (key == '-')
+        {
+            dest = rgu_board_enterPiece(board, BRAVO, moves);
+        }
+        else
+        {
+            dest = rgu_board_movePiece(board, ALPHA, key, moves);
+            if (dest == FAIL)
+                dest = rgu_board_movePiece(board, BRAVO, key, moves);
+        }
 
-        succA = rgu_board_movePiece(board, ALPHA, key, moves);
-        if (!succA) succB = rgu_board_movePiece(board, BRAVO, key, moves);
-
-        if (succA || succB)
-            printf("Successfully moved %c.\n", key);
+        if (dest != FAIL)
+            printf("Successfully moved %c onto type %u.\n", key, dest);
         else
             printf("FAILED to move %c.\n", key);
 

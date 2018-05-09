@@ -29,6 +29,8 @@
 
 
 
+
+
 rgu_board* rgu_board_new()
 {
     rgu_board *self = (rgu_board*) malloc(sizeof(rgu_board));
@@ -77,7 +79,7 @@ rgu_board* rgu_board_new()
                                         (('z'-RGU_PIECES_PER_PLAYER+1)+i));
     }
     
-    /* Set self's heads, then return */
+    /* Set self's heads */
     self->headA = headA;
     self->headB = headB;
 
@@ -129,10 +131,11 @@ uint8_t rgu_board_del(rgu_board *self)
 
 
 
-uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
-                            char key, uint8_t moves)
+rgu_tile_t rgu_board_movePiece(rgu_board *self,
+        rgu_piece_t player, char key, uint8_t moves)
 {
     uint8_t success;
+    rgu_tile_t tile_type;
 
     if (self && moves>=0 && key>=0)
     {
@@ -140,6 +143,9 @@ uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
         rgu_piece *piece = 0;
         uint8_t i;
         
+        /* Failure is the default answer... :( */
+        tile_type = FAIL;
+
         /* Try looking for the game piece with this key input */
         do
         {
@@ -147,7 +153,7 @@ uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
             if (tile_orig->type == TAIL) break;
             
             /* Break if piece!=0 (i.e. we found it) */
-            if (piece = rgu_tile_getPiece(tile_orig, key))
+            if (piece = rgu_tile_getPieceKey(tile_orig, key))
             {
                 rgu_tile_removePiece(tile_orig, piece);
                 break;
@@ -162,41 +168,97 @@ uint8_t rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
         {
             rgu_tile *tile_attempt = tile_orig;
 
-            /* Abandon loop if we're starting to move off the board */
+            /* Get the destination tile */
             for (; moves>0; moves--)
             {
                 tile_attempt = player==ALPHA ?
                     tile_attempt->nextA : tile_attempt->nextB;
 
+                /* Abandon loop if we're starting to move off the board */
                 if (!tile_attempt) break;
             }
             
-            success = 0;
+            /* If we got a valid destination tile */
             if (moves == 0 && tile_attempt)
             {
+                /* Check if there is already an occupying piece */
+                rgu_piece *occupant = rgu_tile_getPieceAny(tile_attempt);
+                if (occupant)
+                {
+                    /* Kick off if it's of the enemy and not on safe tile */
+                    if (occupant->owner != piece->owner &&
+                            tile_attempt->type != DOUBLE)
+                    {
+                        /* Send occupant back to its own head tile */
+                        rgu_tile_removePiece(tile_attempt, occupant);
+                        rgu_tile_addPiece(
+                                occupant->owner == ALPHA ?
+                                    self->headA : self->headB,
+                                occupant);
+                    }
+                }
+
                 success = rgu_tile_addPiece(tile_attempt, piece);
             }
             
-            if (!success)
+            /* All successful scenarios go through here here */
+            if (success)
             {
-                /* Cannot move off the board or on top of other piece */
+                /* SUCCESS! Set `tile_type` */
+                tile_type = tile_attempt->type;
+            }
+            else
+            {
+                /* Cannot move off the board or on top of other piece.
+                 * Replace tile back to its original spot. */
                 rgu_tile_addPiece(tile_orig, piece);
-                success = 0;
             }
         }
         else
         {
             /* Could not find piece with key input `key` */
-            success = 0;
+            tile_type = FAIL;
         }
     }
     else
     {
-        /* Nonsensical parameters (such as null pointers) */
-        success = 0;
+        /* Nonsensical parameters (such as null pointer) */
+        tile_type = FAIL;
     }
 
-    return success;
+    return tile_type;
+}
+
+
+
+rgu_tile_t rgu_board_enterPiece(rgu_board *self,
+        rgu_piece_t player, uint8_t moves)
+{
+    rgu_tile_t tile_type;
+
+    if (self && moves>=0)
+    {
+        rgu_tile *tile = player==ALPHA ? self->headA : self->headB;
+        tile_type = FAIL;
+
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        {
+            if (tile->piece[i])
+            {
+                tile_type = rgu_board_movePiece(self, player,
+                        tile->piece[i]->key, moves);
+                break;
+            }
+        }
+    }
+    else
+    {
+        /* Nonsensical parameters (such as null pointer) */
+        tile_type = FAIL;
+    }
+
+    return tile_type;
 }
 
 
