@@ -323,7 +323,7 @@ uint8_t rgu_board_getActions(rgu_board *self, rgu_piece_t player,
                 if (rgu_board_enterPiece(boardCopy, player, moves) != FAIL)
                 {
                     action[i] = '+';
-                    utility[i] = 0;
+                    utility[i] = rgu_board_getUtility(boardCopy);
                     i++;
                 }
             }
@@ -342,7 +342,7 @@ uint8_t rgu_board_getActions(rgu_board *self, rgu_piece_t player,
                             boardCopy, player, pieceCopy->key, moves) != FAIL)
                     {
                         action[i] = pieceCopy->key;
-                        utility[i] = 0;
+                        utility[i] = rgu_board_getUtility(boardCopy);
                         i++;
                     }
 

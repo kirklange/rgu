@@ -96,6 +96,12 @@ uint8_t rgu_game_run(rgu_game *self)
                 {
                     printf("What should the look-ahead of %s be? >", name[i]);
                     scanf("%i", &lookAhead[i]);
+                    isAI[i] = 1;
+                }
+                else
+                {
+                    isAI[i] = 0;
+                    lookAhead[i] = 0;
                 }
             }
         }
@@ -121,12 +127,13 @@ uint8_t rgu_game_run(rgu_game *self)
             rgu_board_del(self->board);
             self->board = temp;
             */
-
-            rgu_board_print(self->board);
+            
+            uint8_t playerIndex = (self->turn == ALPHA ? 0 : 1);
             moves = rgu_dice_roll();
+            rgu_board_print(self->board);
             printf("    Utility: %i\n\n", rgu_board_getUtility(self->board));
 
-            printf("=== %s ===\n", (self->turn == ALPHA ? name[0] : name[1]));
+            printf("=== %s ===\n", name[playerIndex]);
             printf("Dice Roll: %i\n", moves);
 
 
@@ -142,10 +149,14 @@ uint8_t rgu_game_run(rgu_game *self)
 
             rgu_board_getActions(self->board, self->turn,
                     moves, actionArray, utilityArray);
-            printf("Possible Actions: Q%s\n", actionArray);
-
-
+            printf("Possible Actions:  %s\n", actionArray);
+            printf("Possible Utility:  ");
+            for (i=0; i<RGU_MAX_ACTIONS && actionArray[i]!=0; i++)
+                printf("%i ", utilityArray[i]);
+            printf("\n");
+            
             rgu_tile_t dest = FAIL;
+            /* Only ask to choose action if there is at least one action */
             if (moves > 0 && actionArray[0] != 0)
             {
                 while (dest == FAIL && !quit)
@@ -153,16 +164,14 @@ uint8_t rgu_game_run(rgu_game *self)
                     printf("Choose an action. >");
 
                     /* If human, do a scanf */
-                    if ((self->turn == ALPHA && !isAI[0]) ||
-                            (self->turn == BRAVO && !isAI[1]))
+                    if (!isAI[playerIndex])
                     {
                         scanf(" %c", &action);
                     }
                     else
                     {
-                        /* TODO: write AI function with `rgu_game`, `moves`,
-                         *   and `uint8_t lookAhead` as input */
-                        scanf(" %c", &action);
+                        action = rgu_ai(self, moves, lookAhead[playerIndex]);
+                        printf("%c\n", action);
                     }
                     
                     switch (action)
@@ -205,6 +214,9 @@ uint8_t rgu_game_run(rgu_game *self)
         
         if (winner != NONE)
         {
+            rgu_board_print(self->board);
+            printf("    Utility: %i\n\n", rgu_board_getUtility(self->board));
+
             printf(">>> %s wins! <<<\n",
                     (winner == ALPHA ? name[0] : name[1]));
         }
