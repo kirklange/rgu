@@ -2,4 +2,4 @@ language: c
 install:
 script:
 - make build
-- printf 'Kirk\nEnemy\n+\n+\nQ' | make run
+- printf 'Kirk\nn\nEnemy\ny\n+\n+\nQ' | make run

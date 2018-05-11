@@ -180,11 +180,19 @@ rgu_tile_t rgu_board_movePiece(rgu_board *self,
             /* No point in trying to move a piece that passed the finish */
             if (tile_orig->type == TAIL) break;
             
-            /* Break if piece!=0 (i.e. we found it) */
+            /* Break if piece!=0 and is owned by player (i.e. we found it) */
             if (piece = rgu_tile_getPieceKey(tile_orig, key))
             {
-                rgu_tile_removePiece(tile_orig, piece);
-                break;
+                if (piece->owner == player)
+                {
+                    rgu_tile_removePiece(tile_orig, piece);
+                    break;
+                }
+                else
+                {
+                    piece = 0;
+                    break;
+                }
             }
 
             tile_orig = player==ALPHA ? tile_orig->nextA : tile_orig->nextB;
@@ -295,17 +303,63 @@ rgu_tile_t rgu_board_enterPiece(rgu_board *self,
 
 
 
-uint8_t rgu_board_getPossible(rgu_board *self, char *inputs)
+uint8_t rgu_board_getActions(rgu_board *self, rgu_piece_t player,
+        uint8_t moves, char action[RGU_MAX_ACTIONS],
+        int16_t utility[RGU_MAX_ACTIONS])
 {
     uint8_t success;
 
-    if (self && inputs)
+    if (self && player != NONE && moves > 0 && action && utility)
     {
+        rgu_tile *iter = (player == ALPHA ? self->headA : self->headB);
+        uint8_t i = 0;
         
+        do
+        {
+            rgu_board *boardCopy = rgu_board_cpy(self);
+
+            if (iter == self->headA || iter == self->headB)
+            {
+                if (rgu_board_enterPiece(boardCopy, player, moves) != FAIL)
+                {
+                    action[i] = '+';
+                    utility[i] = 0;
+                    i++;
+                }
+            }
+            else
+            {
+                /* We assume non-head and non-tail tiles can only contain
+                 *   one piece. This is a safe assumption for now, but
+                 *   this could get problematic when trying to reuse this
+                 *   code under a different ruleset. */
+                rgu_piece *pieceCopy =
+                    rgu_piece_cpy(rgu_tile_getPieceAny(iter));
+
+                if (pieceCopy)
+                {
+                    if (pieceCopy->owner == player && rgu_board_movePiece(
+                            boardCopy, player, pieceCopy->key, moves) != FAIL)
+                    {
+                        action[i] = pieceCopy->key;
+                        utility[i] = 0;
+                        i++;
+                    }
+
+                    rgu_piece_del(pieceCopy);
+                }
+            }
+            
+            rgu_board_del(boardCopy);
+            iter = (player == ALPHA ? iter->nextA : iter->nextB);
+        }
+        while(iter && iter->type != TAIL && i < RGU_MAX_ACTIONS);
+
+        success = 1;
     }
     else
     {
-        /* Null pointer inputs */
+        /* Nonsense inputs */
         success = 0;
     }
 
@@ -327,9 +381,9 @@ rgu_tile_t rgu_board_getWinner(rgu_board *self)
         while (iterA->type != TAIL) iterA = iterA->nextA;
         while (iterB->type != TAIL) iterB = iterB->nextB;
 
-        if (rgu_tile_countPieces(iterA) == RGU_PIECES_PER_PLAYER)
+        if (rgu_tile_getPieceCount(iterA) == RGU_PIECES_PER_PLAYER)
             winner = ALPHA;
-        else if (rgu_tile_countPieces(iterB) == RGU_PIECES_PER_PLAYER)
+        else if (rgu_tile_getPieceCount(iterB) == RGU_PIECES_PER_PLAYER)
             winner = BRAVO;
         else
             winner = NONE;
@@ -342,6 +396,56 @@ rgu_tile_t rgu_board_getWinner(rgu_board *self)
 
     return winner;
 }
+
+
+
+int16_t rgu_board_getUtility(rgu_board *self)
+{
+    if (self)
+    {
+        /* Pieces on head don't count towards score */
+        rgu_tile *iter[2];
+        iter[0] = self->headA->nextA;
+        iter[1] = self->headB->nextB;
+        /* Now I regret hard-coding the game as having two players... */
+        int16_t utility = 0, dist = 1;
+        
+        while (iter[0] && iter[1])
+        {
+            /* Assumptions made:
+             * 1) Only one piece per non-head and non-tail tile
+             * 2) All pieces on a tail tile are owned by the same player */
+            uint8_t i;
+            for (i=0; i<2; i++)
+            {
+                rgu_piece *piece = rgu_tile_getPieceAny(iter[i]);
+
+                if (piece)
+                {
+                    utility += (piece->owner == ALPHA ? 1 : -1) *
+                        (int16_t) rgu_tile_getPieceCount(iter[i]) *
+                        /* Central double tile is very strategic */
+                        (iter[0]->type == DOUBLE &&
+                         iter[0] == iter[1] ? dist + 2 : dist);
+                }
+
+                if (iter[0] == iter[1]) break;
+            }
+
+            iter[0] = iter[0]->nextA;
+            iter[1] = iter[1]->nextB;
+            dist++;
+        }
+
+        return utility;
+    }
+    else
+    {
+        /* Null pointer input. Print error message. */
+        return 0;
+    }
+}
+
 
 
 
@@ -363,9 +467,9 @@ void rgu_board_print(rgu_board *self)
     /* Draw head tile piece counts */
     const uint8_t N;
     char buffer[4];
-    sprintf(buffer, "%u", rgu_tile_countPieces(iterA));
+    sprintf(buffer, "%u", rgu_tile_getPieceCount(iterA));
     row2[17] = buffer[0];
-    sprintf(buffer, "%u", rgu_tile_countPieces(iterB));
+    sprintf(buffer, "%u", rgu_tile_getPieceCount(iterB));
     row0[17] = buffer[0];
 
     iterA = iterA->nextA;
@@ -402,9 +506,9 @@ void rgu_board_print(rgu_board *self)
     }
 
     /* Draw tail tile piece counts */
-    sprintf(buffer, "%u", rgu_tile_countPieces(iterA));
+    sprintf(buffer, "%u", rgu_tile_getPieceCount(iterA));
     row2[20] = buffer[0];
-    sprintf(buffer, "%u", rgu_tile_countPieces(iterB));
+    sprintf(buffer, "%u", rgu_tile_getPieceCount(iterB));
     row0[20] = buffer[0];
 
     printf("\n%s%s%s\n", row0, row1, row2);

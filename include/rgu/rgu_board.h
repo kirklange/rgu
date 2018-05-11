@@ -37,6 +37,8 @@ extern "C"
 
 #include <stdint.h>
 
+#define RGU_MAX_ACTIONS RGU_PIECES_PER_PLAYER+1
+
 
 
 /**
@@ -72,8 +74,12 @@ rgu_tile_t  rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
 rgu_tile_t  rgu_board_enterPiece(rgu_board *self, rgu_piece_t player,
                                  uint8_t moves);
 
-/* Set `inputs` to be list of chars of possible moves. */
-uint8_t     rgu_board_getPossible(rgu_board *self, char *inputs);
+/* Set `actions` to be list of chars of possible moves.
+ * We also assume that the max possible amount of actions is equal to the
+ *   player's number of tiles plus the '+' action. */
+uint8_t     rgu_board_getActions(rgu_board *self, rgu_piece_t player,
+                    uint8_t moves, char action[RGU_MAX_ACTIONS],
+                    int16_t utility[RGU_MAX_ACTIONS]);
 rgu_tile_t  rgu_board_getWinner(rgu_board *self);
 int16_t     rgu_board_getUtility(rgu_board *self);
 

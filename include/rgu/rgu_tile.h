@@ -101,7 +101,7 @@ rgu_tile*   rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type);
 rgu_tile*   rgu_tile_cpy(rgu_tile *orig);
 uint8_t     rgu_tile_del(rgu_tile *self);
 
-uint8_t     rgu_tile_countPieces(rgu_tile *self);
+uint8_t     rgu_tile_getPieceCount(rgu_tile *self);
 rgu_piece*  rgu_tile_getPieceAny(rgu_tile *self);
 rgu_piece*  rgu_tile_getPieceKey(rgu_tile *self, char key);
 uint8_t     rgu_tile_addPiece(rgu_tile *self, rgu_piece *piece);

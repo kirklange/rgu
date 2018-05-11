@@ -88,7 +88,7 @@ uint8_t rgu_tile_del(rgu_tile *self)
 
 
 
-uint8_t rgu_tile_countPieces(rgu_tile *self)
+uint8_t rgu_tile_getPieceCount(rgu_tile *self)
 {
     if (self)
     {
