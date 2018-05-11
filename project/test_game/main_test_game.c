@@ -1,4 +1,5 @@
-/*  rgu_dice.c
+/** @file       main_test_game.c
+ *  @brief      Royal Game of Ur full-game two human players test.
  *
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
@@ -21,30 +22,20 @@
  *  ---------->
  */
 
-#include "rgu/rgu_dice.h"
+#include "rgu/rgu_game.h"
 
 #include <stdint.h>
-#include <stdlib.h>
-#include <time.h>
+#include <stdio.h>
 
 
 
-void rgu_dice_seed()
+int main(int argc, char *argv[])
 {
-    time_t t;
-    srand((unsigned) time(&t));
-}
+    printf("RGU Game Test\n\n");
+    
+    rgu_game *game = rgu_game_new();
+    rgu_game_run(game);
+    rgu_game_del(game);
 
-
-
-uint8_t rgu_dice_roll()
-{
-    uint8_t sum = 0, dice = 4;
-
-    for (; dice > 0; dice--)
-    {
-        sum += rand()%2;
-    }
-
-    return sum;
+    return 0;
 }

@@ -25,7 +25,7 @@
 ###############################################################################
 
 # Directory within project/ of the example project that you want to build
-PRJ_SUBDIR = test_board
+PRJ_SUBDIR = test_game
 
 # Directory within src/ for which all *.c files will be added to the build
 SRC_SUBDIRS = rgu

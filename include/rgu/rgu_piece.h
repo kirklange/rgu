@@ -48,6 +48,9 @@ extern "C"
  */
 typedef enum rgu_piece_t
 {
+    /** Mostly used as error code or to say there is no winner yet. */
+    NONE,
+
     /** Owned by player one. */
     ALPHA,
 

@@ -37,6 +37,13 @@ extern "C"
 
 
 /**
+ *  @brief      Seed the pseudo-random number generator.
+ *  @details    Only needs to be called once in the program. Its effect
+ *              is global.
+ */
+void rgu_dice_seed();
+
+/**
  *  @brief      Roll the four tetrahedral dice and return the sum.
  *  @return     The sum of the four dice. Range: [0,4]
  *  @details    Due to the nature of multi-dice rolls, the distribution of

@@ -71,6 +71,9 @@ rgu_tile_t  rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
 rgu_tile_t  rgu_board_enterPiece(rgu_board *self, rgu_piece_t player,
                                  uint8_t moves);
 
+rgu_tile_t  rgu_board_getWinner(rgu_board *self);
+int16_t     rgu_board_getUtility(rgu_board *self);
+
 void        rgu_board_print(rgu_board *self);
 
 

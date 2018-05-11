@@ -143,9 +143,6 @@ rgu_tile_t rgu_board_movePiece(rgu_board *self,
         rgu_piece *piece = 0;
         uint8_t i;
         
-        /* Failure is the default answer... :( */
-        tile_type = FAIL;
-
         /* Try looking for the game piece with this key input */
         do
         {
@@ -168,14 +165,12 @@ rgu_tile_t rgu_board_movePiece(rgu_board *self,
         {
             rgu_tile *tile_attempt = tile_orig;
 
-            /* Get the destination tile */
-            for (; moves>0; moves--)
+            /* Get the destination tile.
+             * Abandon loop if we're starting to move off the board. */
+            for (; moves>0 && tile_attempt; moves--)
             {
                 tile_attempt = player==ALPHA ?
                     tile_attempt->nextA : tile_attempt->nextB;
-
-                /* Abandon loop if we're starting to move off the board */
-                if (!tile_attempt) break;
             }
             
             /* If we got a valid destination tile */
@@ -197,11 +192,16 @@ rgu_tile_t rgu_board_movePiece(rgu_board *self,
                                 occupant);
                     }
                 }
-
+                
+                /* `success` could be set to zero here if stuff goes wrong */
                 success = rgu_tile_addPiece(tile_attempt, piece);
             }
+            else
+            {
+                success = 0;
+            }
             
-            /* All successful scenarios go through here here */
+            /* All successful scenarios go through here */
             if (success)
             {
                 /* SUCCESS! Set `tile_type` */
@@ -212,6 +212,7 @@ rgu_tile_t rgu_board_movePiece(rgu_board *self,
                 /* Cannot move off the board or on top of other piece.
                  * Replace tile back to its original spot. */
                 rgu_tile_addPiece(tile_orig, piece);
+                tile_type = FAIL;
             }
         }
         else
@@ -263,6 +264,37 @@ rgu_tile_t rgu_board_enterPiece(rgu_board *self,
 
 
 
+rgu_tile_t rgu_board_getWinner(rgu_board *self)
+{
+    rgu_tile_t winner;
+
+    if (self)
+    {
+        rgu_tile *iterA = self->headA,
+                 *iterB = self->headB;
+
+        /* Iterate to the tail tiles */
+        while (iterA->type != TAIL) iterA = iterA->nextA;
+        while (iterB->type != TAIL) iterB = iterB->nextB;
+
+        if (rgu_tile_countPieces(iterA) == RGU_PIECES_PER_PLAYER)
+            winner = ALPHA;
+        else if (rgu_tile_countPieces(iterB) == RGU_PIECES_PER_PLAYER)
+            winner = BRAVO;
+        else
+            winner = NONE;
+    }
+    else
+    {
+        /* Nonsensical parameters (such as null pointer) */
+        winner = NONE;
+    }
+
+    return winner;
+}
+
+
+
 void rgu_board_print(rgu_board *self)
 {
     rgu_tile *iterA = self->headA,
@@ -270,9 +302,9 @@ void rgu_board_print(rgu_board *self)
 
     /*               0    5  8  11 14 17 20 23 26
      *               v    v  v  v  v  v  v  v  v   */
-    char row0[30] = "    { }[ ][ ][ ]-#--#-{ }[ ]\n",
+    char row0[30] = "    { }[ ][ ][ ]<#--#<{ }[ ]\n",
          row1[30] = "    [ ][ ][ ]{ }[ ][ ][ ][ ]\n",
-         row2[30] = "    { }[ ][ ][ ]-#--#-{ }[ ]\n";
+         row2[30] = "    { }[ ][ ][ ]<#--#<{ }[ ]\n";
     /*                   head-end        tail-end  */
     
     /* Player A starts and ends on the bottom (row 2).

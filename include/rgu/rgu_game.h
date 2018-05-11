@@ -1,5 +1,6 @@
-/*  rgu_dice.c
- *
+/** @file       rgu_game.h
+ *  @brief      Board structure and functions.
+ *  
  *  <!---------
  *  Copyright (c) 2018 Kirk Lange
  *  
@@ -21,30 +22,45 @@
  *  ---------->
  */
 
-#include "rgu/rgu_dice.h"
+#ifndef RGU_GAME_H
+#define RGU_GAME_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+
+
+#include "rgu/rgu_board.h"
+#include "rgu/rgu_piece.h"
 
 #include <stdint.h>
-#include <stdlib.h>
-#include <time.h>
 
 
 
-void rgu_dice_seed()
+/**
+ *  @brief      The game!
+ *  @details    GAME DESCRIPTION.
+ */
+typedef struct rgu_game
 {
-    time_t t;
-    srand((unsigned) time(&t));
+    rgu_board      *board;
+    rgu_piece_t     turn;
 }
+rgu_game;
 
 
 
-uint8_t rgu_dice_roll()
-{
-    uint8_t sum = 0, dice = 4;
+rgu_game*   rgu_game_new();
+uint8_t     rgu_game_del(rgu_game *self);
 
-    for (; dice > 0; dice--)
-    {
-        sum += rand()%2;
-    }
+uint8_t     rgu_game_run(rgu_game *self);
 
-    return sum;
+
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* RGU_GAME_H */

@@ -85,11 +85,11 @@ int main(int argc, char *argv[])
         else
         {
             dest = rgu_board_movePiece(board, ALPHA, key, moves);
-            if (dest == FAIL)
+            if (dest == NONE)
                 dest = rgu_board_movePiece(board, BRAVO, key, moves);
         }
 
-        if (dest != FAIL)
+        if (dest != NONE)
             printf("Successfully moved %c onto type %u.\n", key, dest);
         else
             printf("FAILED to move %c.\n", key);
