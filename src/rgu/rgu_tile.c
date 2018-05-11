@@ -39,10 +39,43 @@ rgu_tile* rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type)
 
 
 
+rgu_tile* rgu_tile_cpy(rgu_tile *orig)
+{
+    if (orig)
+    {
+        rgu_tile *copy = (rgu_tile*) malloc(sizeof(rgu_tile));
+        copy->nextA = orig->nextA;
+        copy->nextB = orig->nextB;
+        copy->type = orig->type;
+        copy->piece = calloc(RGU_PIECES_PER_PLAYER, sizeof(rgu_piece*));
+
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        {
+            if (orig->piece[i]) copy->piece[i] = rgu_piece_cpy(orig->piece[i]);
+        }
+
+        return copy;
+    }
+    else
+    {
+        /* Null pointer non-sense */
+        return 0;
+    }
+}
+
+
+
 uint8_t rgu_tile_del(rgu_tile *self)
 {
     if (self)
     {
+        uint8_t i;
+        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+        {
+            if (self->piece[i]) rgu_piece_del(self->piece[i]);
+        }
+
         free(self->piece);
         free(self);
     }

@@ -88,18 +88,49 @@ rgu_board* rgu_board_new()
 
 
 
+rgu_board* rgu_board_cpy(rgu_board *orig)
+{
+    if (orig)
+    {
+        rgu_board *copy = (rgu_board*) malloc(sizeof(rgu_board));
+
+        copy->headA = rgu_tile_cpy(orig->headA);
+        copy->headB = rgu_tile_cpy(orig->headB);
+
+        /* Copy the tiles (deep copy) */
+        rgu_tile *origIterA = orig->headA,
+                 *origIterB = orig->headB,
+                 *copyIterA = copy->headA,
+                 *copyIterB = copy->headB;
+        
+        while ((origIterA = origIterA->nextA) &&
+               (origIterB = origIterB->nextB))
+        {
+            copyIterA->nextA = rgu_tile_cpy(origIterA);
+            /* Don't copy center row twice */
+            if (origIterA != origIterB)
+                copyIterB->nextB = rgu_tile_cpy(origIterB);
+            else
+                copyIterB->nextB = copyIterA->nextA;
+
+            copyIterA = copyIterA->nextA;
+            copyIterB = copyIterB->nextB;
+        }
+
+        return copy;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+
+
 uint8_t rgu_board_del(rgu_board *self)
 {
     if (self)
     {
-        /* Free the pieces */
-        uint8_t i;
-        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
-        {
-            rgu_piece_del(self->headA->piece[i]);
-            rgu_piece_del(self->headB->piece[i]);
-        }
-
         /* Free the tiles */
         rgu_tile *iterA = self->headA,
                  *iterB = self->headB,
@@ -255,11 +286,30 @@ rgu_tile_t rgu_board_enterPiece(rgu_board *self,
     }
     else
     {
-        /* Nonsensical parameters (such as null pointer) */
+        /* Null pointer or rolled a zero */
         tile_type = FAIL;
     }
 
     return tile_type;
+}
+
+
+
+uint8_t rgu_board_getPossible(rgu_board *self, char *inputs)
+{
+    uint8_t success;
+
+    if (self && inputs)
+    {
+        
+    }
+    else
+    {
+        /* Null pointer inputs */
+        success = 0;
+    }
+
+    return success;
 }
 
 

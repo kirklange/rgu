@@ -98,6 +98,7 @@ rgu_tile;
 
 
 rgu_tile*   rgu_tile_new(rgu_tile *nextA, rgu_tile *nextB, rgu_tile_t type);
+rgu_tile*   rgu_tile_cpy(rgu_tile *orig);
 uint8_t     rgu_tile_del(rgu_tile *self);
 
 uint8_t     rgu_tile_countPieces(rgu_tile *self);

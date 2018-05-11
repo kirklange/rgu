@@ -53,6 +53,7 @@ rgu_board;
 
 
 rgu_board*  rgu_board_new();
+rgu_board*  rgu_board_cpy(rgu_board *orig);
 uint8_t     rgu_board_del(rgu_board *self);
 
 /**
@@ -71,6 +72,8 @@ rgu_tile_t  rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
 rgu_tile_t  rgu_board_enterPiece(rgu_board *self, rgu_piece_t player,
                                  uint8_t moves);
 
+/* Set `inputs` to be list of chars of possible moves. */
+uint8_t     rgu_board_getPossible(rgu_board *self, char *inputs);
 rgu_tile_t  rgu_board_getWinner(rgu_board *self);
 int16_t     rgu_board_getUtility(rgu_board *self);
 

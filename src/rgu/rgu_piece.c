@@ -28,11 +28,27 @@
 rgu_piece* rgu_piece_new(rgu_piece_t owner, char key)
 {
     rgu_piece *self = (rgu_piece*) malloc(sizeof(rgu_piece));
-
     self->owner = owner;
     self->key = key;
-
     return self;
+}
+
+
+
+rgu_piece* rgu_piece_cpy(rgu_piece *orig)
+{
+    if (orig)
+    {
+        rgu_piece *copy = (rgu_piece*) malloc(sizeof(rgu_piece));
+        copy->owner = orig->owner;
+        copy->key = orig->key;
+        return copy;
+    }
+    else
+    {
+        /* Cannot free null pointer. */
+        return 0;
+    }
 }
 
 

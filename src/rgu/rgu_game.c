@@ -102,6 +102,11 @@ uint8_t rgu_game_run(rgu_game *self)
 
         while (winner == NONE && !quit)
         {
+            /* Deep copy torture test */
+            rgu_board *temp = rgu_board_cpy(self->board);
+            rgu_board_del(self->board);
+            self->board = temp;
+
             rgu_board_print(self->board);
             moves = rgu_dice_roll();
 

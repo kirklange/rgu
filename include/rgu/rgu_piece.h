@@ -80,6 +80,7 @@ rgu_piece;
 
 
 rgu_piece*  rgu_piece_new(rgu_piece_t owner, char key);
+rgu_piece*  rgu_piece_cpy(rgu_piece *orig);
 uint8_t     rgu_piece_del(rgu_piece *self);
 
 
