@@ -1,7 +1,7 @@
 /** @file       rgu_ai.h
- *  @brief      AI functions.
+ *  @brief      The AI function.
  *  
- *  <!---------
+ *  <!-------------------------------------------------------------------------
  *  Copyright (c) 2018 Kirk Lange
  *  
  *  This software is provided 'as-is', without any express or implied
@@ -19,7 +19,7 @@
  *  2. Altered source versions must be plainly marked as such, and must not be
  *     misrepresented as being the original software.
  *  3. This notice may not be removed or altered from any source distribution.
- *  ---------->
+ *  -------------------------------------------------------------------------->
  */
 
 #ifndef RGU_AI_H
@@ -41,8 +41,8 @@ extern "C"
 /**
  *  @brief      Get the best move for this turn.
  *  @return     `char` representation of the AI's chosen move.
- *  @details    DETAIL DESCRIPTION... There are a lot of annonymous functions
- *              being called behind the scenes. See `rgu_ai.c` for more.
+ *  @details    DETAIL DESCRIPTION... There are annonymous functions being
+ *              called behind the scenes. See `rgu_ai.c` for more.
  */
 char    rgu_ai(rgu_game *game, uint8_t moves, uint8_t lookAhead);
 

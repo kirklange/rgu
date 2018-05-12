@@ -52,6 +52,18 @@ rgu_game* rgu_game_new()
 
 
 
+rgu_game* rgu_game_cpy(rgu_game *orig)
+{
+    rgu_game *copy = (rgu_game*) malloc(sizeof(rgu_game));
+
+    copy->board = rgu_board_cpy(orig->board);
+    copy->turn = orig->turn;
+
+    return copy;
+}
+
+
+
 uint8_t rgu_game_del(rgu_game *self)
 {
     if (self)
@@ -200,13 +212,9 @@ uint8_t rgu_game_run(rgu_game *self)
             }
             
             if (dest != DOUBLE)
-            {
-                self->turn = (self->turn == ALPHA ? BRAVO : ALPHA);
-            }
+                rgu_game_flipTurn(self);
             else
-            {
                 printf("Landed on a flower tile. Recieving an extra turn!\n");
-            }
             
             printf("\n");
             winner = rgu_board_getWinner(self->board);
@@ -224,6 +232,21 @@ uint8_t rgu_game_run(rgu_game *self)
         {
             printf("Sorry to see you leave early...\n");
         }
+    }
+    else
+    {
+        /* Null pointer input */
+        return 0;
+    }
+}
+
+
+
+uint8_t rgu_game_flipTurn(rgu_game *self)
+{
+    if (self)
+    {
+        self->turn = (self->turn == ALPHA ? BRAVO : ALPHA);
     }
     else
     {
