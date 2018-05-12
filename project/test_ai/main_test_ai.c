@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
 
             /* Calculate average and standard deviation */
             average /= (float) GAMES;
-            for (k=0; k<GAMES; k++) stddev += abs(score[k]-average);
+            for (k=0; k<GAMES; k++)
+                stddev += abs(score[k] - (int16_t) average);
             stddev /= (float) GAMES;
             
             printf("\nAverage: %.1f\n", average);

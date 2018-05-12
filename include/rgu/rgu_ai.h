@@ -1,5 +1,5 @@
 /** @file       rgu_ai.h
- *  @brief      The AI function.
+ *  @brief      *The* AI function.
  *  
  *  <!-------------------------------------------------------------------------
  *  Copyright (c) 2018 Kirk Lange

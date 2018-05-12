@@ -33,7 +33,7 @@
 
 
 
-uint8_t rgu_ai_mmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
+uint8_t rgu_ai_emmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
                  int16_t alpha, int16_t bravo, int16_t *rValue, uint8_t first);
 
 
@@ -43,7 +43,7 @@ char rgu_ai(rgu_game *game, uint8_t moves, uint8_t lookAhead)
     if (game && moves > 0)
     {
         int16_t rValue;
-        if (rgu_ai_mmab(game, moves, lookAhead, INT_MIN, INT_MAX, &rValue, 1))
+        if (rgu_ai_emmab(game, moves, lookAhead, INT_MIN, INT_MAX, &rValue, 1))
         {
             return (char) rValue;
         }
@@ -61,8 +61,8 @@ char rgu_ai(rgu_game *game, uint8_t moves, uint8_t lookAhead)
 
 
 
-/* Minimax with Alpha-"Bravo" Pruning */
-uint8_t rgu_ai_mmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
+/* Expectiminimax with Alpha-"Bravo" Pruning */
+uint8_t rgu_ai_emmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
                  int16_t alpha, int16_t bravo, int16_t *rValue, uint8_t first)
 {
     uint8_t success;
@@ -135,7 +135,7 @@ uint8_t rgu_ai_mmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
                             for (j=0; j<5; j++)
                             {
                                 int16_t temp;
-                                if (rgu_ai_mmab(gameCopy, moves, lookAhead-1,
+                                if (rgu_ai_emmab(gameCopy, moves, lookAhead-1,
                                                 alpha, bravo, &temp, 0))
                                 {
                                     branch[j] = temp;
@@ -157,10 +157,10 @@ uint8_t rgu_ai_mmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
                             utilityArray[i] = branch[0] + (branch[1]*4) +
                                 (branch[2]*6) + (branch[3]*4) + branch[4];
                             utilityArray[i] /= 16;
-                        }
                         
-                        /* Unflip turn for following minimax and pruning */
-                        if (dest != DOUBLE) rgu_game_flipTurn(gameCopy);
+                            /* Unflip turn for following minimax and pruning */
+                            if (dest != DOUBLE) rgu_game_flipTurn(gameCopy);
+                        }
 
                         /* Pruning logic */
                         if (gameCopy->turn == ALPHA)
