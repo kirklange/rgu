@@ -112,17 +112,23 @@ uint8_t rgu_game_run(rgu_game *self, char *name[2],
         uint8_t isAI[2], benchmarking = 0;
         
         /* AI benchmarking mode.
-         * `benchmarking = 1` suppresses most print messages. */
+         * `benchmarking = 1` suppresses all print messages. */
         if (name && lookAhead && score)
             isAI[0] = isAI[1] = benchmarking = 1;
 
         if (!benchmarking)
         {
             printf(">>> Welcome to the Royal Game of Ur <<<\n\n");
+            
+            name = (char**) calloc(2, sizeof(char*));
+            lookAhead = (uint8_t*) calloc(1, sizeof(uint8_t));
+            score = (int16_t*) calloc(1, sizeof(int16_t));
 
             uint8_t i;
             for (i=0; i<2; i++)
             {
+                name[i] = calloc(1, sizeof(char)*(STRLEN+1));
+
                 printf("What is your name, player %s? >",
                         (i == 0 ? "one" : "two"));
                 scanf(STRFMT, name[i]);
@@ -166,6 +172,7 @@ uint8_t rgu_game_run(rgu_game *self, char *name[2],
                     "board.\nTo quit early, input capital \'Q\'.\n");
         }
 
+        /* GAME LOOP */
         while (winner == NONE && !quit)
         {
             /* Deep copy torture test
@@ -261,7 +268,7 @@ uint8_t rgu_game_run(rgu_game *self, char *name[2],
             
             if (!benchmarking) printf("\n");
             winner = rgu_board_getWinner(self->board);
-        }
+        } /* END GAME LOOP */
         
         if (winner != NONE)
         {
@@ -278,6 +285,15 @@ uint8_t rgu_game_run(rgu_game *self, char *name[2],
         else if (quit)
         {
             printf("Sorry to see you leave early...\n");
+        }
+
+        if (!benchmarking)
+        {
+            uint8_t i;
+            for (i=0; i<2; i++) free(name[i]);
+            free(name);
+            free(lookAhead);
+            free(score);
         }
     }
     else
