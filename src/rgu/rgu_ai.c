@@ -128,21 +128,35 @@ uint8_t rgu_ai_mmab(rgu_game *game, uint8_t moves, uint8_t lookAhead,
                         }
                         else
                         {
-                            /* Do recursive call */
-                            int16_t temp;
-                            if (rgu_ai_mmab(gameCopy, moves, lookAhead-1,
-                                            alpha, bravo, &temp, 0))
+                            /* Do recursive calls and make this a chance
+                             *   node by making a weighted average */
+                            int16_t branch[5];
+                            uint8_t j;
+                            for (j=0; j<5; j++)
                             {
-                                utilityArray[i] = temp;
+                                int16_t temp;
+                                if (rgu_ai_mmab(gameCopy, moves, lookAhead-1,
+                                                alpha, bravo, &temp, 0))
+                                {
+                                    branch[j] = temp;
+                                }
+                                else
+                                {
+                                    /* If recursion failed, i.e. if there are
+                                     *   no moves that can be taken, then get
+                                     *   the utility of the current board
+                                     *   state */
+                                    branch[j] =
+                                        rgu_board_getUtility(gameCopy->board);
+                                }
                             }
-                            else
-                            {
-                                /* If recursion failed, i.e. if there are no
-                                 *   moves that can be taken, then get the
-                                 *   utility of the current board state */
-                                utilityArray[i] =
-                                    rgu_board_getUtility(gameCopy->board);
-                            }
+                            
+                            /* Weights are based on the nature of the RGU
+                             *   dice rolls (equivalent to flipping four
+                             *   coins) */
+                            utilityArray[i] = branch[0] + (branch[1]*4) +
+                                (branch[2]*6) + (branch[3]*4) + branch[4];
+                            utilityArray[i] /= 16;
                         }
                         
                         /* Unflip turn for following minimax and pruning */
