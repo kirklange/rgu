@@ -1,7 +1,7 @@
-/** @file       main_test_game.c
- *  @brief      Royal Game of Ur full-game two human players test.
+/** @file       main_rgu.c
+ *  @brief      Royal Game of Ur full-game for humans and AI.
  *
- *  <!---------
+ *  <!-------------------------------------------------------------------------
  *  Copyright (c) 2018 Kirk Lange
  *  
  *  This software is provided 'as-is', without any express or implied
@@ -19,7 +19,7 @@
  *  2. Altered source versions must be plainly marked as such, and must not be
  *     misrepresented as being the original software.
  *  3. This notice may not be removed or altered from any source distribution.
- *  ---------->
+ *  -------------------------------------------------------------------------->
  */
 
 #include "rgu/rgu_game.h"
@@ -31,8 +31,6 @@
 
 int main(int argc, char *argv[])
 {
-    printf("RGU Game Test\n\n");
-    
     rgu_game *game = rgu_game_new();
     rgu_game_run(game, 0, 0, 0);
     rgu_game_del(game);
