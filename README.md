@@ -6,4 +6,17 @@
 [![License: zlib](https://img.shields.io/badge/license-zlib-blue.svg)](https://zlib.net/zlib_license.html)
 <!--[![GitHub Issues](https://img.shields.io/github/issues/kirklange/royal-game-of-ur.svg)](https://github.com/kirklange/royal-game-of-ur/issues)-->
 
-The Royal Game of Ur, with stochastic adversarial search AI. 
+The Royal Game of Ur with expectiminimax AI.
+
+## Quick Start Guide
+
+```bash
+git clone https://github.com/kirklange/royal-game-of-ur.git
+cd royal-game-of-ur
+make init
+make build
+make run
+```
+
+`test_ai` is the default project. To change which project gets built and run,
+modify the `PRJ_SUBDIR` variable in `Makefile`.
