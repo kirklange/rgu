@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     printf("RGU Game Test\n\n");
     
     rgu_game *game = rgu_game_new();
-    rgu_game_run(game);
+    rgu_game_run(game, 0, 0, 0, 0);
     rgu_game_del(game);
 
     return 0;

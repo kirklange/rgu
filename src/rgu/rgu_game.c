@@ -36,6 +36,8 @@
 #define STRLEN 64
 #define STRFMT " %63s"
 
+static uint8_t seeded = 0;
+
 
 
 rgu_game* rgu_game_new()
@@ -45,7 +47,11 @@ rgu_game* rgu_game_new()
     self->board = rgu_board_new();
     self->turn = rand()%2 == 0 ? ALPHA : BRAVO;
 
-    rgu_dice_seed();
+    if (!seeded)
+    {
+        rgu_dice_seed();
+        seeded = 1;
+    }
 
     return self;
 }
@@ -80,57 +86,85 @@ uint8_t rgu_game_del(rgu_game *self)
 
 
 
-uint8_t rgu_game_run(rgu_game *self)
+uint8_t rgu_game_flipTurn(rgu_game *self)
+{
+    if (self)
+    {
+        self->turn = (self->turn == ALPHA ? BRAVO : ALPHA);
+    }
+    else
+    {
+        /* Null pointer input */
+        return 0;
+    }
+}
+
+
+
+uint8_t rgu_game_run(rgu_game *self, char *name[2],
+                     uint8_t lookAhead[2], int16_t *score)
 {
     if (self)
     {
         rgu_tile_t winner = NONE;
-        char name[2][STRLEN], action = 0;
+        char action = 0;
         uint8_t moves = 0, quit = 0;
-        uint8_t isAI[2], lookAhead[2];
-
-        printf(">>> Welcome to the Royal Game of Ur <<<\n\n");
+        uint8_t isAI[2], benchmarking = 0;
         
-        uint8_t i;
-        for (i=0; i<2; i++)
-        {
-            printf("What is your name, player %s? >",
-                    (i == 0 ? "one" : "two"));
-            scanf(STRFMT, name[i]);
-            
-            action = 0;
-            while (!(action == 'y' || action == 'n'))
-            {
-                printf("Is %s an AI? (y/n) >", name[i]);
-                scanf(" %c", &action);
+        /* AI benchmarking mode.
+         * `benchmarking = 1` suppresses most print messages. */
+        if (name && lookAhead && score)
+            isAI[0] = isAI[1] = benchmarking = 1;
 
-                if (action == 'y')
+        if (!benchmarking)
+        {
+            printf(">>> Welcome to the Royal Game of Ur <<<\n\n");
+
+            uint8_t i;
+            for (i=0; i<2; i++)
+            {
+                printf("What is your name, player %s? >",
+                        (i == 0 ? "one" : "two"));
+                scanf(STRFMT, name[i]);
+                
+                action = 0;
+                while (!(action == 'y' || action == 'n'))
                 {
-                    printf("What should the look-ahead of %s be? >", name[i]);
-                    scanf("%i", &lookAhead[i]);
-                    isAI[i] = 1;
-                }
-                else
-                {
-                    isAI[i] = 0;
-                    lookAhead[i] = 0;
+                    printf("Is %s an AI? (y/n) >", name[i]);
+                    scanf(" %c", &action);
+
+                    if (action == 'y')
+                    {
+                        printf("What should the look-ahead of %s be? >", name[i]);
+                        scanf("%i", &lookAhead[i]);
+                        isAI[i] = 1;
+                    }
+                    else
+                    {
+                        isAI[i] = 0;
+                        lookAhead[i] = 0;
+                    }
                 }
             }
         }
         
         /* Display who owns what pieces */
-        printf("\n%s's Pieces: ", name[0]);
-        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
-            printf("%c ", self->board->headA->piece[i]->key);
-        printf("\n%s Pieces: ", name[1]);
-        for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
-            printf("%c ", self->board->headB->piece[i]->key);
-        printf("\n");
+        if (!benchmarking)
+        {
+            uint8_t i;
+            printf("\n%s's Pieces: ", name[0]);
+            for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+                printf("%c ", self->board->headA->piece[i]->key);
+            printf("\n%s Pieces: ", name[1]);
+            for (i=0; i<RGU_PIECES_PER_PLAYER; i++)
+                printf("%c ", self->board->headB->piece[i]->key);
+            printf("\n");
 
-        printf("\nOn each turn when you're prompted to choose an action, "
-                "input the char of one of your piece's chars on the screen, "
-                "or input \'+\' to add your next piece onto the board.\n"
-                "To quit early, input capital \'Q\'.\n");
+            printf("\nOn each turn when you're prompted to choose an action, "
+                    "input the char of one of your piece's chars on the "
+                    "screen, or input \'+\' to add your next piece onto the "
+                    "board.\nTo quit early, input capital \'Q\'.\n");
+        }
 
         while (winner == NONE && !quit)
         {
@@ -142,17 +176,22 @@ uint8_t rgu_game_run(rgu_game *self)
             
             uint8_t playerIndex = (self->turn == ALPHA ? 0 : 1);
             moves = rgu_dice_roll();
-            rgu_board_print(self->board);
-            printf("    Utility: %i\n\n", rgu_board_getUtility(self->board));
-
-            printf("=== %s ===\n", name[playerIndex]);
-            printf("Dice Roll: %i\n", moves);
+            
+            if (!benchmarking)
+            {
+                rgu_board_print(self->board);
+                printf("    Utility: %i\n\n",
+                        rgu_board_getUtility(self->board));
+                printf("=== %s ===\n", name[playerIndex]);
+                printf("Dice Roll: %i\n", moves);
+            }
 
 
             /* Figure out possible actions and their utility value */
             char actionArray[RGU_MAX_ACTIONS];
             int16_t utilityArray[RGU_MAX_ACTIONS];
 
+            uint8_t i;
             for (i=0; i<RGU_MAX_ACTIONS; i++)
             {
                 actionArray[i] = 0;
@@ -161,11 +200,15 @@ uint8_t rgu_game_run(rgu_game *self)
 
             rgu_board_getActions(self->board, self->turn,
                     moves, actionArray, utilityArray);
-            printf("Possible Actions:  %s\n", actionArray);
-            printf("Possible Utility:  ");
-            for (i=0; i<RGU_MAX_ACTIONS && actionArray[i]!=0; i++)
-                printf("%i ", utilityArray[i]);
-            printf("\n");
+
+            if (!benchmarking)
+            {
+                printf("Possible Actions:  %s\n", actionArray);
+                printf("Possible Utility:  ");
+                for (i=0; i<RGU_MAX_ACTIONS && actionArray[i]!=0; i++)
+                    printf("%i ", utilityArray[i]);
+                printf("\n");
+            }
             
             rgu_tile_t dest = FAIL;
             /* Only ask to choose action if there is at least one action */
@@ -173,7 +216,7 @@ uint8_t rgu_game_run(rgu_game *self)
             {
                 while (dest == FAIL && !quit)
                 {
-                    printf("Choose an action. >");
+                    if (!benchmarking) printf("Choose an action. >");
 
                     /* If human, do a scanf */
                     if (!isAI[playerIndex])
@@ -183,7 +226,7 @@ uint8_t rgu_game_run(rgu_game *self)
                     else
                     {
                         action = rgu_ai(self, moves, lookAhead[playerIndex]);
-                        printf("%c\n", action);
+                        if (!benchmarking) printf("%c\n", action);
                     }
                     
                     switch (action)
@@ -205,7 +248,7 @@ uint8_t rgu_game_run(rgu_game *self)
             else
             {
                 /* Threw a zero or cannot move any pieces */
-                printf("Cannot make any moves!\n");
+                if (!benchmarking) printf("Cannot make any moves!\n");
                 
                 /* Only pause for 1 second if there's at least one human */
                 if (!isAI[0] || !isAI[1]) sleep(1);
@@ -213,40 +256,29 @@ uint8_t rgu_game_run(rgu_game *self)
             
             if (dest != DOUBLE)
                 rgu_game_flipTurn(self);
-            else
+            else if (!benchmarking)
                 printf("Landed on a flower tile. Recieving an extra turn!\n");
             
-            printf("\n");
+            if (!benchmarking) printf("\n");
             winner = rgu_board_getWinner(self->board);
         }
         
         if (winner != NONE)
         {
-            rgu_board_print(self->board);
-            printf("    Utility: %i\n\n", rgu_board_getUtility(self->board));
+            *score = rgu_board_getUtility(self->board);
 
-            printf(">>> %s wins! <<<\n",
-                    (winner == ALPHA ? name[0] : name[1]));
+            if (!benchmarking)
+            {
+                rgu_board_print(self->board);
+                printf("    Utility: %i\n\n", *score);
+                printf(">>> %s wins! <<<\n",
+                        (winner == ALPHA ? name[0] : name[1]));
+            }
         }
         else if (quit)
         {
             printf("Sorry to see you leave early...\n");
         }
-    }
-    else
-    {
-        /* Null pointer input */
-        return 0;
-    }
-}
-
-
-
-uint8_t rgu_game_flipTurn(rgu_game *self)
-{
-    if (self)
-    {
-        self->turn = (self->turn == ALPHA ? BRAVO : ALPHA);
     }
     else
     {

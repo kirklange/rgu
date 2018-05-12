@@ -56,8 +56,9 @@ rgu_game*   rgu_game_new();
 rgu_game*   rgu_game_cpy(rgu_game *orig);
 uint8_t     rgu_game_del(rgu_game *self);
 
-uint8_t     rgu_game_run(rgu_game *self);
 uint8_t     rgu_game_flipTurn(rgu_game *self);
+uint8_t     rgu_game_run(rgu_game *self, char *name[2],
+                         uint8_t lookAhead[2], int16_t *score);
 
 
 

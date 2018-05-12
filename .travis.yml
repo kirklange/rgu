@@ -2,4 +2,4 @@ language: c
 install:
 script:
 - make build
-- printf 'Bob\ny\n0\nNewton\ny\n1\n' | make run
+- make run
