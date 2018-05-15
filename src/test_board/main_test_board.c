@@ -47,8 +47,8 @@ int main(int argc, char *argv[])
     printf("\n");
 
     printf("Staging Tile Pieces Count\n");
-    printf("  Player A: %u\n", rgu_tile_countPieces(board->headA));
-    printf("  Player B: %u\n", rgu_tile_countPieces(board->headB));
+    printf("  Player A: %u\n", rgu_tile_getPieceCount(board->headA));
+    printf("  Player B: %u\n", rgu_tile_getPieceCount(board->headB));
    
     printf("Game Piece Key Assignments\n");
     uint8_t i;
