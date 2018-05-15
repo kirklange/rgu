@@ -24,25 +24,27 @@
 ##############################  Standard Options  #############################
 ###############################################################################
 
-# Directory within project/ of the example project that you want to build
-PRJ_SUBDIR = test_ai
+# Directory within src/ of the project or test that you want to build
+MAIN_SUBDIR = test_ai
 
-# Directory within src/ for which all *.c files will be added to the build
+# Directory within src/ for which all *.c files will be added to the build.
+# The difference between this and `MAIN_SUBDIR` is that this is intended to
+#   indicate where the API source files are located.
 SRC_SUBDIRS = rgu
 
 # Needed submodule include directories within ext/
-EXT_INC_DIRS =
+SUB_INC_DIRS =
 
 # Needed submodule source directories within ext/
-EXT_SRC_DIRS =
+SUB_SRC_DIRS =
 
 # If the submodule has its test source files in the same directory as its
 #   actual API source files (facepalm), then you may want to manually specify
 #   individual source files here
-EXT_SRC_FILES =
+SUB_SRC_FILES =
 
 # Name for the build subdirectory and executable (file extension not necessary)
-OUT = $(PRJ_SUBDIR)
+OUT = $(MAIN_SUBDIR)
 
 
 
@@ -56,7 +58,7 @@ CC = gcc
 CF = -std=c89 -pedantic -O3 -w
 LF =
 
-# ALWAYS NECESSARY FOR WINDOWS!!!
+# OFTEN NECESSARY FOR WINDOWS!!!
 # Outside include and lib directories for `gcc` such as the paths to the SDL2
 # Change the path to match where you have installed the stuff on your machine
 # Commented out are examples for luac
@@ -70,8 +72,8 @@ GCC_L_DIRS_LIN = #$$HOME/lib
 # Root directory
 ROOT = .
 
-# External (git submodule) directory
-EXT_DIR = $(ROOT)/ext
+# Submodule directory
+SUB_DIR = $(ROOT)/sub
 
 
 
@@ -82,16 +84,16 @@ EXT_DIR = $(ROOT)/ext
 .PHONY : init
 
 init :
-	@rm -rf $(EXT_DIR)/ezc
-	@rm -rf $(EXT_DIR)/m.css
-	@rm -rf .git/modules/ext/ezc
-	@rm -rf .git/modules/ext/m.css
-	@git rm -r --cached $(EXT_DIR)
-	git submodule add -f https://github.com/ezaf/ezc.git $(EXT_DIR)/ezc
-	git submodule add -f https://github.com/mosra/m.css.git $(EXT_DIR)/m.css
+	@rm -rf $(SUB_DIR)/ezc
+	@rm -rf $(SUB_DIR)/m.css
+	@rm -rf .git/modules/$(SUB_DIR)/ezc
+	@rm -rf .git/modules/$(SUB_DIR)/m.css
+	@git rm -r --cached $(SUB_DIR)
+	git submodule add -f https://github.com/ezaf/ezc.git $(SUB_DIR)/ezc
+	git submodule add -f https://github.com/mosra/m.css.git $(SUB_DIR)/m.css
 	@rm -f script/ezc.mk
 	@rm -f script/ezc_open.sh
 	@mkdir -p script
 	@rmdir --ignore-fail-on-non-empty script
 
--include $(EXT_DIR)/ezc/script/ezc.mk
+-include $(SUB_DIR)/ezc/script/ezc.mk
