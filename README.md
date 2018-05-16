@@ -36,14 +36,18 @@ see the [Make It!](#make-it) section.
 
 ## Game Rules Description
 
-This game has four tetrahedral dice. Two of the four corners are marked with a
-white dot. The amount of moves a player gets is equivalent to the amount of
-dots pointing up after a roll. Rolling a 0 means you lose that turn. The
-probability of recieving `n` amount of moves is as follows:
+This game has four tetrahedral dice. Two of the four corners of the tetrahedron
+are marked with a white dot. The amount of moves a player gets is equivalent to
+the amount of dots pointing up after a roll. Rolling a 0 means you lose that
+turn. The probability of rolling `n` moves is as follows:
 
 0 | 1 | 2 | 3 | 4
 --- | --- | --- | --- | ---
 1/16 | 1/4 | 3/8 | 1/4 | 1/16
+
+After rolling the dice, you can choose to either add a piece on the board on
+the nth tile, or move a piece already on the board n tiles forward. You can't
+sub-divide the moves. Each tile can only house one game piece.
 
 There are two players. Each starts in the notch on their own side of the
 board. Each piece must go up their row (starting on the four-tile segment),
@@ -56,33 +60,43 @@ wins.
 
 ![The Game Board](https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/docs/rgu_video_snapshot.png)
 
-**Snapshot taken from [this video](https://youtu.be/WZskjLq040I) at `3m49s`.**
+*Snapshot taken from [this video](https://youtu.be/WZskjLq040I) at 3m49s.*
 
 On the shared center row, players can land on each other and reset the victim
-tile back to its starting position. Landing on a flower tile grants an extra
-turn and dice roll. Being on a flower tile protects you from enemy tiles (i.e.
+piece back to its starting position. Landing on a flower tile grants an extra
+turn and dice roll. Being on a flower tile protects you from enemy pieces (i.e.
 they can't land on you).
 
 
 
 ## AI Implementation
 
-TODO: explain
+This AI uses the same minimax algorithm I used in a class assignment for the
+Othello board game, except it has been adapted for stochastic games. To
+account for the probabilistic nature of the game, the values of the chance
+nodes are the weighted average of each possible dice roll.
 
 
 
 ## Proof of Competence
 
 Below is an example output of `test_ai`, formatted into a pretty spreadsheet.
+Galileo is the maximizer. Simplicio is the minimizer. Galileo is always at
+least as good as Simplicio.
 
 ![AI Benchmark](https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/docs/test_ai_spreadsheet.png)
+
+Interestingly, there is little benefit to looking ahead more than a couple
+moves. I suspect this is because we are dealing with a stochastic game; the
+further you look ahead, the less likely it is that the game will end up where
+you are trying to force it to go.
 
 
 
 ## Make It!
 
 The following are various unit tests for this project, including the main 
-game executable itself.
+game itself.
 
 * `test_dice` The most basic test, it prints out a 10x10 table of dice rolls.
 * `test_board` This verifies whether the board initializes correctly or not.
@@ -94,6 +108,18 @@ program will print out the board and its utility value after each turn.
 
 To change which project gets built and run, modify the `MAIN_SUBDIR` variable 
 in `Makefile`.
+
+
+
+## Code Documentation
+
+As of now the doc strings in the header files are incomplete, though the
+function names themselves are fairly verbose. The longer source files are well
+documented.
+
+**Note**: Because I implemented this project in C89 "for fun", you won't see
+any `bool` types where you might expect them, among other oddities related to
+C89. A future improvement could be creating typedefs for bools and error codes.
 
 
 
