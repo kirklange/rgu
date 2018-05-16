@@ -65,7 +65,6 @@ uint8_t     rgu_board_del(rgu_board *self);
  *                            member that you want to move.
  *  @param      moves       The amount of movements you want to try to move.
  *  @return     `0` if cannot move. `1` if successfully moved.
- *  @details    DETAILED DESCRIPTION.
  */
 rgu_tile_t  rgu_board_movePiece(rgu_board *self, rgu_piece_t player,
                                 char key, uint8_t moves);

@@ -41,8 +41,8 @@ extern "C"
 /**
  *  @brief      Get the best move for this turn.
  *  @return     `char` representation of the AI's chosen move.
- *  @details    DETAIL DESCRIPTION... There are annonymous functions being
- *              called behind the scenes. See `rgu_ai.c` for more.
+ *  @details    There are annonymous functions being called behind the scenes.
+ *              See `rgu_ai.c` for more.
  */
 char    rgu_ai(rgu_game *game, uint8_t moves, uint8_t lookAhead);
 
