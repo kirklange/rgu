@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>rgu_tile.h file | The Royal Game of Ur</title>
+  <title>rgu_tile.h file | The Royal Game of ur</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+doxygen.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#22272e" />
 </head>
@@ -12,7 +13,7 @@
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">The Royal Game of Ur</a>
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">The Royal Game of ur</a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
           <path d="m6 0c-3.3144 0-6 2.6856-6 6 0 3.3144 2.6856 6 6 6 1.4858 0 2.8463-0.54083 3.8945-1.4355-0.0164 0.33797 0.14734 0.75854 0.5 1.1504l3.2227 3.7891c0.55185 0.6139 1.4517 0.66544 2.002 0.11524 0.55022-0.55022 0.49866-1.4501-0.11524-2.002l-3.7891-3.2246c-0.39184-0.35266-0.81242-0.51469-1.1504-0.5 0.89472-1.0482 1.4355-2.4088 1.4355-3.8945 0-3.3128-2.6856-5.998-6-5.998zm0 1.5625a4.4375 4.4375 0 0 1 4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375-4.4375 4.4375 4.4375 0 0 1 4.4375-4.4375z"/>
@@ -23,10 +24,9 @@
       <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
         <div class="m-row">
           <ol class="m-col-t-12 m-col-m-none">
-            <li><a href="pages.html">Pages</a></li>
             <li><a href="files.html">Files</a></li>
           </ol>
-          <ol class="m-col-t-6 m-col-m-none" start="3">
+          <ol class="m-col-t-6 m-col-m-none" start="2">
             <li class="m-show-m"><a href="#search" class="m-dox-search-icon" title="Search" onclick="return showSearch()"><svg viewBox="0 0 16 16">
               <path d="m6 0c-3.3144 0-6 2.6856-6 6 0 3.3144 2.6856 6 6 6 1.4858 0 2.8463-0.54083 3.8945-1.4355-0.0164 0.33797 0.14734 0.75854 0.5 1.1504l3.2227 3.7891c0.55185 0.6139 1.4517 0.66544 2.002 0.11524 0.55022-0.55022 0.49866-1.4501-0.11524-2.002l-3.7891-3.2246c-0.39184-0.35266-0.81242-0.51469-1.1504-0.5 0.89472-1.0482 1.4355-2.4088 1.4355-3.8945 0-3.3128-2.6856-5.998-6-5.998zm0 1.5625a4.4375 4.4375 0 0 1 4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375 4.4375 4.4375 4.4375 0 0 1-4.4375-4.4375 4.4375 4.4375 0 0 1 4.4375-4.4375z"/>
             </svg></a></li>
@@ -70,12 +70,13 @@
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-dox">
             <dt>
-              <span class="m-dox-wrap-bumper">enum <a href="#a826e5f47c2253912c754ab0ecbbffc94" class="m-dox">rgu_tile_t</a> { </span><span class="m-dox-wrap"><a href="#a826e5f47c2253912c754ab0ecbbffc94a0b0955668575b21eb0ab2272aef49f76" class="m-dox">HEAD</a>,
+              <span class="m-dox-wrap-bumper">enum <a href="#a826e5f47c2253912c754ab0ecbbffc94" class="m-dox">rgu_tile_t</a> { </span><span class="m-dox-wrap"><a href="#a826e5f47c2253912c754ab0ecbbffc94a936c4a5547a9360243178f726f6b2715" class="m-dox">FAIL</a>,
+              <a href="#a826e5f47c2253912c754ab0ecbbffc94a0b0955668575b21eb0ab2272aef49f76" class="m-dox">HEAD</a>,
               <a href="#a826e5f47c2253912c754ab0ecbbffc94a50d1448013c6f17125caee18aa418af7" class="m-dox">NORMAL</a>,
               <a href="#a826e5f47c2253912c754ab0ecbbffc94a33465d1d419b1074fb259ef444609e92" class="m-dox">DOUBLE</a>,
               <a href="#a826e5f47c2253912c754ab0ecbbffc94a4c28487b052a2b05f3db4dc5a722b1d7" class="m-dox">TAIL</a> }</span>
             </dt>
-            <dd>The four (technically two) types of tiles on an RGU board.</dd>
+            <dd>The four (technically two) types of tiles on an RGU board, plus an &quot;error code&quot; tile.</dd>
           </dl>
         </section>
         <section id="typedef-members">
@@ -84,7 +85,7 @@
             <dt>
               using <a href="#ae3661e0484ec3002d310af8bf1473970" class="m-dox">rgu_tile_t</a> = enum <a href="rgu__tile_8h.html#a826e5f47c2253912c754ab0ecbbffc94" class="m-dox">rgu_<wbr />tile_<wbr />t</a>
             </dt>
-            <dd>The four (technically two) types of tiles on an RGU board.</dd>
+            <dd>The four (technically two) types of tiles on an RGU board, plus an &quot;error code&quot; tile.</dd>
             <dt>
               using <a href="#ac9cfd28554bab4bfa3a4b621610ec4ea" class="m-dox">rgu_tile</a> = struct <a href="structrgu__tile.html" class="m-dox">rgu_<wbr />tile</a>
             </dt>
@@ -97,11 +98,17 @@
             <h3>
               enum <a href="#a826e5f47c2253912c754ab0ecbbffc94" class="m-dox-self">rgu_tile_t</a>
             </h3>
-            <p>The four (technically two) types of tiles on an RGU board.</p>
+            <p>The four (technically two) types of tiles on an RGU board, plus an &quot;error code&quot; tile.</p>
 <p>The starting and ending tiles are where the pieces reside when they aren&#x27;t being rendered off the board. For our convenience, we will treat them like as if they are still on tiles, albeit very special tiles.</p>
             <table class="m-table m-fullwidth m-flat m-dox">
               <thead><tr><th style="width: 1%">Enumerators</th><th></th></tr></thead>
               <tbody>
+                <tr>
+                  <td><a href="#a826e5f47c2253912c754ab0ecbbffc94a936c4a5547a9360243178f726f6b2715" class="m-dox-self" name="a826e5f47c2253912c754ab0ecbbffc94a936c4a5547a9360243178f726f6b2715">FAIL</a></td>
+                  <td>
+<p>Game piece movement functions return the type of tile the piece landed on. If a piece failed to move to a tile, those function return <code>FAIL</code> instead.</p>
+                  </td>
+                </tr>
                 <tr>
                   <td><a href="#a826e5f47c2253912c754ab0ecbbffc94a0b0955668575b21eb0ab2272aef49f76" class="m-dox-self" name="a826e5f47c2253912c754ab0ecbbffc94a0b0955668575b21eb0ab2272aef49f76">HEAD</a></td>
                   <td>
@@ -136,7 +143,7 @@
             <h3>
               typedef enum <a href="rgu__tile_8h.html#a826e5f47c2253912c754ab0ecbbffc94" class="m-dox">rgu_<wbr />tile_<wbr />t</a> <a href="#ae3661e0484ec3002d310af8bf1473970" class="m-dox-self">rgu_tile_t</a>
             </h3>
-            <p>The four (technically two) types of tiles on an RGU board.</p>
+            <p>The four (technically two) types of tiles on an RGU board, plus an &quot;error code&quot; tile.</p>
 <p>The starting and ending tiles are where the pieces reside when they aren&#x27;t being rendered off the board. For our convenience, we will treat them like as if they are still on tiles, albeit very special tiles.</p>
           </div></section>
           <section class="m-dox-details" id="ac9cfd28554bab4bfa3a4b621610ec4ea"><div>
@@ -184,7 +191,7 @@
   <div class="m-container">
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
-        <p>The Royal Game of Ur. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.14 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
+        <p>The Royal Game of ur. Created by <a href="http://doxygen.org/">Doxygen</a> 1.8.13 and <a href="http://mcss.mosra.cz/">m.css</a>.</p>
       </div>
     </div>
   </div>

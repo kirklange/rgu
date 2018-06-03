@@ -1,0 +1,22 @@
+digraph "Graph Legend"
+{
+  edge [fontname="Verdana",fontsize="8",labelfontname="Verdana",labelfontsize="8"];
+  node [fontname="Verdana",fontsize="8",shape=record];
+  Node9 [shape="box",label="Inherited",fontsize="8",height=0.2,width=0.4,fontname="Verdana",fillcolor="grey75",style="filled" fontcolor="black"];
+  Node10 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="Verdana"];
+  Node10 [shape="box",label="PublicBase",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="black",URL="$classPublicBase.html"];
+  Node11 -> Node10 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="Verdana"];
+  Node11 [shape="box",label="Truncated",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="red",URL="$classTruncated.html"];
+  Node13 -> Node9 [dir="back",color="darkgreen",fontsize="8",style="solid",fontname="Verdana"];
+  Node13 [shape="box",label="ProtectedBase",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="black",URL="$classProtectedBase.html"];
+  Node14 -> Node9 [dir="back",color="firebrick4",fontsize="8",style="solid",fontname="Verdana"];
+  Node14 [shape="box",label="PrivateBase",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="black",URL="$classPrivateBase.html"];
+  Node15 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="Verdana"];
+  Node15 [shape="box",label="Undocumented",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="grey75"];
+  Node16 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="Verdana"];
+  Node16 [shape="box",label="Templ< int >",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="black",URL="$classTempl.html"];
+  Node17 -> Node16 [dir="back",color="orange",fontsize="8",style="dashed",label="< int >",fontname="Verdana"];
+  Node17 [shape="box",label="Templ< T >",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="black",URL="$classTempl.html"];
+  Node18 -> Node9 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label="m_usedClass",fontname="Verdana"];
+  Node18 [shape="box",label="Used",fontsize="8",height=0.2,width=0.4,fontname="Verdana",color="black",URL="$classUsed.html"];
+}

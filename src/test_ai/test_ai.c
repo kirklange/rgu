@@ -1,4 +1,4 @@
-/** @file       main_test_ai.c
+/** @file       test_ai.c
  *  @brief      Royal Game of Ur AI benchmarking.
  *
  *  <!---------

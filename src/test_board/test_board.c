@@ -1,4 +1,4 @@
-/** @file       main_test_board.c
+/** @file       test_board.c
  *  @brief      Royal Game of Ur board initialization test.
  *
  *  <!---------
