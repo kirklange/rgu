@@ -1,6 +1,6 @@
 # EzMake Configuration File
 #
-# Copyright (c) 2018 Kirk Lange <github.com/kirklange>
+# Copyright (c) 2018 Kirk Lange <gitlab.com/kirklange>
 #
 # This software is provided 'as-is', without any express or implied
 # warranty. In no event will the authors be held liable for any damages
@@ -117,7 +117,7 @@ init :
 	@rm -rf .git/modules/$(SUB_DIR)/ezmake
 	@rm -rf .git/modules/$(SUB_DIR)/m.css
 	@git rm -r --cached --ignore-unmatch $(SUB_DIR)
-	git submodule add -f https://github.com/ezaf/ezmake.git $(SUB_DIR)/ezmake
+	git submodule add -f https://gitlab.com/ezaf/ezmake.git $(SUB_DIR)/ezmake
 	git submodule add -f https://github.com/mosra/m.css.git $(SUB_DIR)/m.css
 	@rm -f script/ezmake.mk
 	@rm -f script/ezmake_open.sh
