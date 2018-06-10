@@ -1,6 +1,6 @@
 # EzMake Configuration File
 #
-# Copyright (c) 2018 Kirk Lange <gitlab.com/kirklange>
+# Copyright (c) 2018 Kirk Lange <github.com/kirklange>
 #
 # This software is provided 'as-is', without any express or implied
 # warranty. In no event will the authors be held liable for any damages
@@ -27,24 +27,25 @@
 # Name for your shared library code.
 LIB_NAME = rgu
 
-# Name of the one application that you want to run when you call `make run`.
-# This should be equivalent to one of the items in `MAIN_SUBDIRS`.
-EXEC_ME = test_ai
-
-# Directory within /src of the app, example, and test that you want to build.
-# TODO: Allow compilation of multiple mains. This will require compiling the
-# shared API part of the code into a shared library.
-MAIN_SUBDIRS = test_ai #test_dice test_board main_rgu
-
-# Source subdirectories. Shared among the apps, examples, and tests.
+# Directories within /src of your library code.
+# Code in these subdirectories are meant to be shared among all apps and tests.
 SRC_SUBDIRS = rgu
+
+# Directories within /src of the apps and tests that you want to build.
+MAIN_SUBDIRS = test_dice test_board test_ai main_rgu
+
+# Name of the application(s) you want to test when you call `make test`.
+TEST = main_rgu #$(MAIN_SUBDIRS)
+
+# Name of the application (singular!) you want to run when you call `make run`.
+RUN = main_rgu
 
 # Packages that you want to include in your project.
 # If `pkg-config` cannot find the package, `-I$(PREFIX)/include/$(PKG)` and
 # `-l$(PKG)` will be added to the build instead, for each PKG in PKGS and for
 # each PREFIX in PREFIXES. These are CASE SENSITIVE! Double check the correct
 # case for your library. Commented out are examples.
-PKGS = #gtk+-3.0 sdl2 SDL2_image
+PKGS = #glfw3 gtk+-3.0 sdl2 SDL2_image
 
 # Needed submodule include directories within /sub
 SUB_INC_DIRS =
@@ -73,15 +74,11 @@ MODE = static
 #MODE = dynamic
 
 # C-Flags and library (`-l` only) settings
-# In many cases the order in which your `-l`s appear matters!
-# WARNING: EzMake's emcc mode only supports libc, libc++, and SDL2 by default.
-ifeq ($(CC),emcc)
-	CF = -O3
-	LF = #-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_SDL_TTF=2
-else
-	CF = -std=c89 -pedantic -O3 -w
-	LF =
-endif
+# In many cases the order in which your `-l`s appear matters! One limitation of
+# EzMake is that we assume all tests/mains use the same compiler flags. If this
+# becomes a big enough issue, this will be amended in a future version.
+CF = -std=c89 -pedantic -O3 -w
+LF =
 
 # Source file extensions you want compiled.
 SRC_EXTS = c #cpp
@@ -117,7 +114,7 @@ init :
 	@rm -rf .git/modules/$(SUB_DIR)/ezmake
 	@rm -rf .git/modules/$(SUB_DIR)/m.css
 	@git rm -r --cached --ignore-unmatch $(SUB_DIR)
-	git submodule add -f https://gitlab.com/ezaf/ezmake.git $(SUB_DIR)/ezmake
+	git submodule add -f https://github.com/ezaf/ezmake.git $(SUB_DIR)/ezmake
 	git submodule add -f https://github.com/mosra/m.css.git $(SUB_DIR)/m.css
 	@rm -f script/ezmake.mk
 	@rm -f script/ezmake_open.sh

@@ -1,8 +1,11 @@
 before_script:
-- make init
 
-# TODO: Update EzMake to allow for easy switching between unit tests
-test_ai:
+test:
   script:
-    - make build
-    - make run
+    - make init
+    - make build MODE=static
+    - make test
+    - make clean
+    - make init
+    - make build MODE=dynamic
+    - make test

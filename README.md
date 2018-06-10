@@ -1,5 +1,6 @@
 # The Royal Game of Ur
 
+[![Build Status](https://travis-ci.org/ezaf/ezmake.svg?branch=master)](https://travis-ci.org/ezaf/ezmake)
 [![License: zlib](https://img.shields.io/badge/license-zlib-blue.svg)](https://zlib.net/zlib_license.html)
 
 The Royal Game of Ur with expectiminimax AI.
