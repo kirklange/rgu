@@ -1,7 +1,7 @@
 /*  rgu_ai.c
  *
  *  <!-------------------------------------------------------------------------
- *  Copyright (c) 2018 Kirk Lange <gitlab.com/kirklange>
+ *  Copyright (c) 2018 Kirk Lange <github.com/kirklange>
  *  
  *  This software is provided 'as-is', without any express or implied
  *  warranty.  In no event will the authors be held liable for any damages
