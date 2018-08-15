@@ -1,5 +1,8 @@
 /bin
-/build
-/docs/refman.pdf
+/docs
+/include
 /lib
+*.d
+*.d.*
+*.o
 *.swp
