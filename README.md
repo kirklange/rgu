@@ -1,9 +1,22 @@
 # The Royal Game of Ur
 
 [![Build Status](https://travis-ci.org/ezaf/ezmake.svg?branch=master)](https://travis-ci.org/ezaf/ezmake)
+[![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](http://rgu.kirklange.com)
 [![License: zlib](https://img.shields.io/badge/license-zlib-blue.svg)](https://zlib.net/zlib_license.html)
 
 The Royal Game of Ur with expectiminimax AI.
+
+
+
+## Links
+
+Some helpful links if you want to use and/or contribute to the project!
+
+Resource | URL
+--- | ---
+Documentation | [rgu.kirklange.io](http://rgu.kirklange.io)
+GitHub | [github.com/kirklange/rgu](https://github.com/kirklange/rgu)
+Build Status | [travis-ci.org/kirklange/rgu](https://travis-ci.org/kirklange/rgu)
 
 
 
