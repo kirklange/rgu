@@ -2,9 +2,6 @@ language: c
 install:
 script:
   - make init
-  - make build MODE=dynamic
+  - make all
   - make test
   - make clean
-  - make init
-  - make build MODE=static
-  - make test

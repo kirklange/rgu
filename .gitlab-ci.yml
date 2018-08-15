@@ -3,9 +3,6 @@ before_script:
 test:
   script:
     - make init
-    - make build MODE=static
+    - make all
     - make test
     - make clean
-    - make init
-    - make build MODE=dynamic
-    - make test
