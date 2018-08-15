@@ -22,12 +22,12 @@ Download, build, and run the repo code.
 git clone https://github.com/kirklange/royal-game-of-ur.git
 cd royal-game-of-ur
 make init
-make build
+make test
 make run
 ```
 
-`test_ai` is the default project. To change which project gets built and run,
-see the [Make It!](#make-it) section.
+`main_rgu` is the default project that gets executed by `make run`. To change 
+this, see the [Make It!](#make-it) section.
 
 
 
@@ -98,12 +98,12 @@ game itself.
 * `test_dice` The most basic test, it prints out a 10x10 table of dice rolls.
 * `test_board` This verifies whether the board initializes correctly or not.
 * `test_ai` This benchmarks the AI, comparing it against random agents and 
-agents with less lookahead than itself.
+agents of lesser or equal lookahead.
 * `main_rgu` The main game itself. The program will ask you an initial set of 
 questions like whether you want each player to be a human or an AI. This 
 program will print out the board and its utility value after each turn.
 
-To change which project gets built and run, modify the `MAIN_SUBDIR` variable 
+To change which project is executed by `make run`, modify the `RUN` variable 
 in `Makefile`.
 
 
