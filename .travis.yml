@@ -1,4 +1,16 @@
 language: c
+compiler: gcc
+branches:
+    only:
+        - ci
+        - master
+sudo: false
+dist: trusty
+addons:
+    apt:
+        packages:
+            - git
+            - doxygen
 install:
 script:
   - make init

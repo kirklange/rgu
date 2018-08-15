@@ -77,7 +77,7 @@ SRC_EXTS = c
 
 # Location(s) where EzMake should look for `include` and `lib` subdirectories
 # No biggie if the directory doesn't exist.
-PREFIXES = /usr /mingw64 /mingw32 $$HOME
+PREFIXES = /usr /usr/local /mingw64 /mingw32 $$HOME
 
 # WARNING: Changing these may cause a lot of headache!
 # Project root directory and submodule directory
@@ -103,4 +103,4 @@ init :
 
 FORCE :
 
--include $(SUB_DIR)/ezmake/script/ezmake.mk
+-include $(ROOT)/$(SUB_DIR)/ezmake/script/ezmake.mk
