@@ -32,8 +32,8 @@ sudo apt-get install -y gcc git make
 Download, build, and run the repo code.
 
 ```bash
-git clone https://github.com/kirklange/royal-game-of-ur.git
-cd royal-game-of-ur
+git clone https://github.com/kirklange/rgu.git
+cd rgu
 make init
 make test
 make run
@@ -68,7 +68,7 @@ very last tile, you must roll exactly a 1 in order to move that tile off the
 board. The first player to have all seven of their pieces go around the board
 wins.
 
-<img src="https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/src/docs/rgu_video_snapshot.png" alt="The Game Board" width=100%>
+![The Game Board](https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/src/docs/rgu_video_snapshot.png)
 
 *Snapshot taken from [this video](https://youtu.be/WZskjLq040I) at 3m49s.*
 
@@ -94,7 +94,7 @@ Below is an example output of `test_ai`, formatted into a pretty spreadsheet.
 Galileo is the maximizer. Simplicio is the minimizer. Galileo is always at
 least as good as Simplicio.
 
-<img src="https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/src/docs/test_ai_spreadsheet.png" alt="AI Benchmark" width=100%>
+![AI Benchmark](https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/src/docs/test_ai_spreadsheet.png)
 
 Interestingly, there is little benefit to looking ahead more than a couple
 moves. I suspect this is because we are dealing with a stochastic game; the
@@ -133,7 +133,7 @@ C89. A future improvement could be creating typedefs for bools and error codes.
 
 
 
-## Copyright
+## License
 
 Copyright (c) 2018 Kirk Lange <github.com/kirklange>
 
