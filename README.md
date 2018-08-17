@@ -68,7 +68,7 @@ very last tile, you must roll exactly a 1 in order to move that tile off the
 board. The first player to have all seven of their pieces go around the board
 wins.
 
-![The Game Board](https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/src/docs/rgu_video_snapshot.png)
+![The Game Board](https://raw.githubusercontent.com/kirklange/rgu/master/src/docs/rgu_video_snapshot.png)
 
 *Snapshot taken from [this video](https://youtu.be/WZskjLq040I) at 3m49s.*
 
@@ -94,7 +94,7 @@ Below is an example output of `test_ai`, formatted into a pretty spreadsheet.
 Galileo is the maximizer. Simplicio is the minimizer. Galileo is always at
 least as good as Simplicio.
 
-![AI Benchmark](https://raw.githubusercontent.com/kirklange/royal-game-of-ur/master/src/docs/test_ai_spreadsheet.png)
+![AI Benchmark](https://raw.githubusercontent.com/kirklange/rgu/master/src/docs/test_ai_spreadsheet.png)
 
 Interestingly, there is little benefit to looking ahead more than a couple
 moves. I suspect this is because we are dealing with a stochastic game; the
