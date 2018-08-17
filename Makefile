@@ -29,6 +29,10 @@
 # is set to dynamic.
 MODULES = rgu
 
+# Similar to MODULES, except PLUGINS are not part of the core application and
+# must be dynamically loaded via a shared object (.dll, .so, etc)
+PLUGINS =
+
 # Directories within ./src of the apps and tests that you want to build.
 MAINS = test_dice test_board test_ai main_rgu
 
@@ -68,6 +72,10 @@ CC = gcc
 # becomes a big enough issue, this will be amended in a future version.
 CF = -std=c89 -pedantic -O3 -w
 LF =
+
+# When building all, choose whether to build dynamic and/or static mains
+# EZSDL: For some reason statically built mains have trouble loading plugins
+MODES = dynamic static
 
 # Include file extensions you want moved to ./include
 INC_EXTS = h
