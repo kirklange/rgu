@@ -8,18 +8,6 @@ The Royal Game of Ur with expectiminimax AI.
 
 
 
-## Links
-
-Some helpful links if you want to use and/or contribute to the project!
-
-Resource | URL
---- | ---
-Documentation | [rgu.kirklange.io](http://rgu.kirklange.io)
-GitHub | [github.com/kirklange/rgu](https://github.com/kirklange/rgu)
-Build Status | [travis-ci.org/kirklange/rgu](https://travis-ci.org/kirklange/rgu)
-
-
-
 ## Quick Start Guide
 
 Get the prerequisites, if you don't have them already.
