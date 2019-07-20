@@ -11,6 +11,8 @@ addons:
         packages:
             - git
             - doxygen
+git:
+    submodules: false
 install:
 script:
   - make init
